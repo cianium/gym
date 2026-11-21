@@ -235,5 +235,15 @@ $check(str_contains($compiledShop, '/api/v1/athlete/checkout')
     && str_contains($compiledShop, '"X-CSRF-Token":a.csrfToken'),
     'compiled storefront posts to protected athlete checkout with CSRF');
 
+$maintenanceSource = file_get_contents(dirname(__DIR__) . '/app/Http/Controllers/Api/V1/SystemMaintenanceController.php');
+$exportStart = strpos($maintenanceSource, 'public function exportBackup');
+$exportEnd = strpos($maintenanceSource, 'public function createPreUpgradeSnapshot', $exportStart ?: 0);
+$exportMethod = ($exportStart !== false && $exportEnd !== false)
+    ? substr($maintenanceSource, $exportStart, $exportEnd - $exportStart) : '';
+$check(str_contains($exportMethod, 'encryptBundle') && !str_contains($exportMethod, "boolean('encrypted')"),
+    'backup export is always encrypted and cannot emit plaintext credentials');
+$check(str_contains($compiledShop, '/api/v1/admin/backup/export?encrypted=1'),
+    'compiled admin client explicitly requests encrypted backup export');
+
 // All assertions above run offline; they are not a substitute for live MySQL concurrency tests.
 echo "OK: {$passed} database-free regression checks passed\n";
