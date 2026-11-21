@@ -83,24 +83,23 @@ class SystemMaintenanceController
 
     public function exportBackup(Request $request): JsonResponse
     {
-        $bundle = $this->buildBackupBundle();
-        $encryptedExport = $request->boolean('encrypted');
-        if ($encryptedExport) {
-            try {
-                $bundle = (new BackupVault())->encryptBundle($bundle);
-            } catch (RuntimeException) {
-                return response()->json([
-                    'error' => 'کلید اختصاصی رمزگذاری بکاپ تنظیم نشده یا معتبر نیست.',
-                    'code' => 'BACKUP_ENCRYPTION_KEY_REQUIRED',
-                ], 503);
-            }
+        // Backup bundles contain password hashes, TOTP secrets, remember tokens,
+        // order access tokens, payment records and private files. Never return
+        // this payload as plaintext, even to an authenticated administrator.
+        try {
+            $bundle = (new BackupVault())->encryptBundle($this->buildBackupBundle());
+        } catch (RuntimeException) {
+            return response()->json([
+                'error' => 'کلید اختصاصی رمزگذاری بکاپ تنظیم نشده یا معتبر نیست.',
+                'code' => 'BACKUP_ENCRYPTION_KEY_REQUIRED',
+            ], 503);
         }
 
         AuditLog::create([
             'action' => 'ADMIN_BACKUP_EXPORTED',
             'actor' => (string) ($request->user()?->email ?? 'admin'),
             'ip_address' => (string) $request->ip(),
-            'details' => 'خروجی کامل پشتیبان (دیتابیس + رسانه عمومی + فایل‌های خصوصی دیجیتال) تهیه شد.',
+            'details' => 'خروجی رمزگذاری‌شده پشتیبان (دیتابیس + رسانه عمومی + فایل‌های خصوصی دیجیتال) تهیه شد.',
             'created_at' => now(),
         ]);
 
