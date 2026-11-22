@@ -10,6 +10,7 @@
   const seed = {
     athlete: { id: 101, name: 'مهدی رضایی', email: 'mehdi@example.test', phone: '09120000001', phone_verified: true },
     loggedIn: true,
+    adminLoggedIn: true,
     athletes: [
       { id: 101, name: 'مهدی رضایی', email: 'mehdi@example.test', phone: '09120000001' },
       { id: 102, name: 'علی محمدی', email: 'ali@example.test', phone: '09120000002' },
@@ -55,9 +56,10 @@
     try { body = JSON.parse((init && init.body) || '{}'); } catch (_) {}
     const p = url.pathname.replace(/^\/api\/v1\//, '');
     const s = state();
-    if (p === 'auth/session' && method === 'GET') return json({ authenticated: true, username: 'demo-coach', csrfToken: csrf, mustChangePassword: false });
-    if (p === 'auth/admin/login' && method === 'POST') return json({ authenticated: true, username: 'demo-coach', csrfToken: csrf, mustChangePassword: false });
-    if (p === 'auth/admin/logout' || p === 'auth/admin/password') return json({ ok: true });
+    if (p === 'auth/session' && method === 'GET') return json({ authenticated: s.adminLoggedIn !== false, username: s.adminLoggedIn === false ? null : 'demo-coach', csrfToken: s.adminLoggedIn === false ? null : csrf, mustChangePassword: false });
+    if (p === 'auth/admin/login' && method === 'POST') { s.adminLoggedIn = true; save(s); return json({ authenticated: true, username: 'demo-coach', csrfToken: csrf, mustChangePassword: false }); }
+    if (p === 'auth/admin/logout' && method === 'POST') { s.adminLoggedIn = false; save(s); return json({ ok: true }); }
+    if (p === 'auth/admin/password' && method === 'POST') return json({ error: 'تغییر رمز عبور در نسخه نمایشی غیرفعال است.' }, 501);
     if (p === 'bootstrap' && method === 'GET') {
       const demo = {
         installed: true, version: '2.3.2', installedAt: '2026-11-01T09:00:00+03:30',
