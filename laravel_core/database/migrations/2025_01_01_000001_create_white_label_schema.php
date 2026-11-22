@@ -141,7 +141,7 @@ return new class extends Migration
             $table->string('subtitle')->nullable();
             $table->unsignedBigInteger('price_toman');
             $table->unsignedBigInteger('discount_price_toman')->nullable();
-            $table->text('description')->default('');
+            $table->text('description');
             $table->json('features')->nullable();
             $table->string('visual_preset', 50)->default('digital-hypertrophy');
             $table->string('custom_image_url', 500)->nullable();
