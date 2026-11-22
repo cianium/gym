@@ -94,8 +94,15 @@
   };
   window.addEventListener('DOMContentLoaded', function () {
     const banner = document.createElement('div');
-    banner.textContent = 'حالت نمایشی ARASH Fitness — اطلاعات نمونه است؛ عملیات واقعی، پیامک و پرداخت غیرفعال‌اند.';
-    banner.style.cssText = 'position:sticky;top:0;z-index:99999;padding:9px 14px;text-align:center;background:#7c5b20;color:#fff;font:12px Tahoma,Arial,sans-serif';
+    banner.style.cssText = 'position:sticky;top:0;z-index:99999;padding:9px 12px;text-align:center;background:#7c5b20;color:#fff;font:12px Tahoma,Arial,sans-serif;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap';
+    const note = document.createElement('span');
+    note.textContent = 'حالت نمایشی ARASH Fitness — اطلاعات نمونه است؛ عملیات واقعی، پیامک و پرداخت غیرفعال‌اند.';
+    banner.append(note);
+    [['ورزشکار','/athlete'],['مربی','/coach/athletes'],['جلسات مربی','/coach/schedule'],['مدیریت','/admin'],['صفحه اصلی','/']].forEach(([label,href]) => {
+      const a = document.createElement('a'); a.href = href; a.textContent = label;
+      a.style.cssText = 'color:#fff;text-decoration:underline;font-weight:bold;white-space:nowrap';
+      banner.append(a);
+    });
     document.body.prepend(banner);
   });
 })();
