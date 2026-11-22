@@ -34,6 +34,8 @@ All data and actions are fictional simulations. No real account, booking, messag
 - Add-athlete, profile-save, appointment-request, message, and generic-item interactions.
 - LocalStorage reload persistence.
 - HTML-injection regression check for user-entered member names.
+- Athlete directory search and membership-plan filters.
+- Weekly activity chart value labels and improved chart grid styling.
 - Mobile viewport check at 390px with no horizontal page overflow.
 - No uncaught page errors during the automated interaction suite.
 
