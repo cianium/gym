@@ -1,6 +1,22 @@
 {
   "rewrites": [
     {
+      "source": "/athlete",
+      "destination": "/athlete.html"
+    },
+    {
+      "source": "/athlete/register",
+      "destination": "/athlete-register.html"
+    },
+    {
+      "source": "/coach/athletes",
+      "destination": "/coach-athletes.html"
+    },
+    {
+      "source": "/coach/schedule",
+      "destination": "/coach-schedule.html"
+    },
+    {
       "source": "/admin",
       "destination": "/index.html"
     },
@@ -53,11 +69,5 @@
       "destination": "/index.html"
     }
   ],
-  "redirects": [
-    {
-      "source": "/athlete",
-      "destination": "/account",
-      "permanent": false
-    }
-  ]
+  "redirects": []
 }
