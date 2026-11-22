@@ -58,6 +58,10 @@
 
 **وضعیت آزمون این اصلاح:** کد و تست به مخزن Push شده‌اند؛ اجرای مجدد تست‌ها هنوز لازم است.
 
+### سازگاری MySQL 8 در Migration
+
+اولین اجرای CI با MySQL 8.0.46 نشان داد که تعریف `TEXT NOT NULL DEFAULT ''` برای ستون `products.description` توسط MySQL رد می‌شود. این مشکل در Migration اولیه اصلاح شد و Migration سازگاری `2026_11_22_000001_remove_products_description_text_default` نیز برای نصب‌های قبلی اضافه شد. این اصلاح به مخزن Push شده، اما هنوز اجرای موفق Migrationها و Feature tests روی CI تأیید نشده است.
+
 ## ۵. موارد مسدودکننده Production
 
 1. اجرای تمام Migrationها روی دیتابیس MySQL/MariaDB تازه و قابل حذف.
