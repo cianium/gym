@@ -122,6 +122,7 @@ class MySqlConcurrencyTest extends TestCase
         Product::create([
             'id' => 'parallel-physical', 'type' => 'physical',
             'title' => 'One idempotent purchase', 'price_toman' => 150000,
+            'description' => '',
             'status' => 'published', 'stock' => 5, 'reserved_stock' => 0,
         ]);
         $key = 'shared-random-checkout-key-' . bin2hex(random_bytes(12));
