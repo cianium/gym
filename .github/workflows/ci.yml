@@ -42,6 +42,15 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Prepare Laravel writable directories
+        run: |
+          mkdir -p laravel_core/bootstrap/cache
+          mkdir -p laravel_core/storage/framework/cache/data
+          mkdir -p laravel_core/storage/framework/sessions
+          mkdir -p laravel_core/storage/framework/views
+          mkdir -p laravel_core/storage/logs
+          chmod -R u+rwX laravel_core/bootstrap/cache laravel_core/storage
+
       - name: Install Composer dependencies
         run: composer install --working-dir=laravel_core --no-interaction --prefer-dist --no-progress
 
