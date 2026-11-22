@@ -47,7 +47,7 @@
 - به‌روزرسانی `SCHEMA_VERSION`.
 - افزودن دو assertion رگرسیون برای جلوگیری از بازگشت تعریف ناسازگار.
 
-**وضعیت:** اصلاح ثبت شده؛ CI پس از این تغییر هنوز در حال اجرا/تأیید است. تا عبور Migration و Feature tests، سازگاری MySQL تأییدشده محسوب نمی‌شود.
+**وضعیت:** CI روی MySQL 8.0.46 موفق شد؛ 30 تست PHPUnit و 146 assertion PASS. این اجرا پس از اصلاح Migration و Fixtureهای تست انجام شد. lint جاوااسکریپت به Workflow افزوده شده و اجرای جدید آن در جریان است.
 
 ## ۴. یافته‌های فنی و محدودیت‌ها
 
@@ -60,7 +60,7 @@
 
 ## ۵. یکپارچه‌سازی CI
 
-فایل `.github/workflows/ci.yml` به شاخه `main` اضافه شد. این Workflow برای Push و Pull Request، PHP 8.3، MySQL 8، تست‌های مستقل از دیتابیس، بررسی Route، تست کلاینت و PHPUnit روی دیتابیس اختصاصی `test_arash_fitness` را تعریف می‌کند. در این بازبینی هنوز اجرای موفقی از GitHub Actions قابل تأیید نبود؛ نتیجه اولین Run باید جداگانه بررسی شود.
+فایل `.github/workflows/ci.yml` به شاخه `main` اضافه شد. این Workflow برای Push و Pull Request، PHP 8.3، MySQL 8، تست‌های مستقل از دیتابیس، بررسی Route، تست کلاینت و PHPUnit روی دیتابیس اختصاصی `test_arash_fitness` را تعریف می‌کند. اجرای موفق GitHub Actions در commit `684e2a38` تأیید شد: PHP syntax، 41 رگرسیون مستقل، Route smoke، Client checkout و 30 تست PHPUnit با 146 assertion روی MySQL 8.0.46 همگی PASS شدند. مرحله lint باندل‌های JavaScript بعداً افزوده شد و در اجرای بعدی بررسی می‌شود.
 
 ## ۶. برنامه اجرایی بعدی
 
