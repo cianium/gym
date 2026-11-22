@@ -9,6 +9,7 @@
   const csrf = 'ARASH-DEMO-CSRF';
   const seed = {
     athlete: { id: 101, name: 'مهدی رضایی', email: 'mehdi@example.test', phone: '09120000001', phone_verified: true },
+    loggedIn: true,
     athletes: [
       { id: 101, name: 'مهدی رضایی', email: 'mehdi@example.test', phone: '09120000001' },
       { id: 102, name: 'علی محمدی', email: 'ali@example.test', phone: '09120000002' },
@@ -57,10 +58,32 @@
     if (p === 'auth/session' && method === 'GET') return json({ authenticated: true, username: 'demo-coach', csrfToken: csrf, mustChangePassword: false });
     if (p === 'auth/admin/login' && method === 'POST') return json({ authenticated: true, username: 'demo-coach', csrfToken: csrf, mustChangePassword: false });
     if (p === 'auth/admin/logout' || p === 'auth/admin/password') return json({ ok: true });
-    if (p === 'bootstrap' && method === 'GET') return json({ installed: true, version: '2.3.2' });
+    if (p === 'bootstrap' && method === 'GET') {
+      const demo = {
+        installed: true, version: '2.3.2', installedAt: '2026-11-01T09:00:00+03:30',
+        brandConfig: { brandName: 'ARASH Fitness', brandSubtitle: 'پلتفرم اختصاصی مربیگری و برنامه تمرینی', seoTitle: 'ARASH Fitness | مربیگری حرفه‌ای', seoDescription: 'برنامه تمرینی اختصاصی، پیگیری پیشرفت و ارتباط با مربی', ogTitle: 'ARASH Fitness', ogDescription: 'سامانه اختصاصی مربیگری ورزشی', ogImage: '', ogType: 'website', ogSiteName: 'ARASH Fitness', twitterCard: 'summary_large_image', canonicalDomain: '', footerCopyright: '© ARASH Fitness', shippingFlatRateToman: 85000, freeShippingThresholdToman: 3000000 },
+        siteModules: { home: true, shop: true, explore: true, contact: true },
+        themeColors: { primaryColor: '#C8A66A', secondaryColor: '#D6B77D' },
+        coach: { name: 'آرش احمدی', englishName: 'Arash Ahmadi', title: 'مربی تخصصی بدنسازی', tagline: 'تمرین علمی؛ پیشرفت پایدار', bio: 'مربی بدنسازی و طراحی برنامه‌های اختصاصی تمرین.', specialties: ['قدرت', 'عضله‌سازی', 'آمادگی جسمانی'], experienceYears: 8, activeAthletes: 42, programsDelivered: 186, location: 'تهران', phone: '', email: '', instagramHandle: '', telegramHandle: '', youtubeHandle: '', nfcSerialCode: '', visualPreset: 'coach-portrait', customAvatarUrl: null, certifications: [] },
+        sectionConfigs: [],
+        products: [{ id: 'demo-plan-1', type: 'digital', title: 'برنامه قدرت و هایپرتروفی', subtitle: 'سطح متوسط · چهار هفته', price: 450000, discountPrice: null, description: 'برنامه تمرینی نمونه برای نمایش فروشگاه.', features: ['برنامه چندجلسه‌ای', 'ثبت پیشرفت', 'قابل مشاهده در پنل ورزشکار'], visualPreset: 'training-plan', customImageUrl: null, status: 'published', isArchived: false, level: 'متوسط', duration: '۴ هفته', fileFormat: 'PDF', fileSize: '', fileVersion: 1, modules: [], stock: null, reservedStock: 0, sku: 'DEMO-PLAN-01', material: null, shippingEstimate: null }],
+        posts: [],
+        orders: s.orders.map(o => ({ id: o.id, orderNumber: o.number, trackingCode: 'DEMO-'+o.id, refId: 'DEMO-'+o.id, gateway: 'demo', createdAt: o.created_at, paidAt: o.created_at, refundType: null, refundReference: null, refundedAt: null, customerName: s.athlete.name, customerPhone: s.athlete.phone, customerEmail: s.athlete.email, customerCity: 'تهران', customerAddress: '', customerPostalCode: '', customerNotes: '', subtotal: o.amount_toman, discountAmount: 0, discountCode: null, shippingCost: 0, totalAmount: o.amount_toman, status: 'completed', fulfillmentStatus: 'completed', items: (o.items || []).map(i => ({ productId: 'demo-plan-1', title: i.title, type: 'digital', price: o.amount_toman, quantity: i.qty, visualPreset: 'training-plan', customImageUrl: null, downloadToken: null })) })),
+        revisions: [], consultations: s.leads.map(x => ({ id: x.id, senderName: x.sender_name, senderPhone: x.sender_phone, goalTopic: x.goal_topic, message: x.message, status: x.status, coachNotes: x.coach_notes, createdAt: '2026-11-21T10:00:00+03:30' })),
+        discounts: [], gateways: [{ id: 'demo', title: 'درگاه نمایشی (غیرفعال)', enabled: false, merchantConfigured: false, callbackUrl: '' }],
+        auditLogs: []
+      };
+      return json(Object.assign(demo, s.adminDraft || {}));
+    }
     if (p === 'admin/state-sync' && method === 'PUT') { s.adminDraft = body; save(s); return json({ ok: true }); }
     if (p === 'athlete/login' && method === 'POST') { s.loggedIn = true; save(s); return json({ authenticated: true, csrfToken: csrf, athlete: { id: s.athlete.id, name: s.athlete.name } }); }
-    if (p === 'athlete/me') return json({ athlete: s.athlete, csrfToken: csrf });
+    if (p === 'athlete/otp/request' && method === 'POST') { s.pendingPhone = String(body.phone || ''); save(s); return json({ ok: true, demo_code: '123456', message: 'کد نمایشی: 123456' }); }
+    if (p === 'athlete/register' && method === 'POST') {
+      s.athlete = { id: Date.now(), name: String(body.name || 'ورزشکار دمو'), email: 'demo-athlete@example.test', phone: String(body.phone || s.pendingPhone || '09120000000'), phone_verified: true };
+      s.loggedIn = true; s.athletes.unshift({ id: s.athlete.id, name: s.athlete.name, email: s.athlete.email, phone: s.athlete.phone }); save(s);
+      return json({ ok: true, authenticated: true, athlete: s.athlete });
+    }
+    if (p === 'athlete/me') return s.loggedIn ? json({ athlete: s.athlete, csrfToken: csrf }) : json({ error: 'برای ادامه وارد شوید.' }, 401);
     if (p === 'athlete/logout' && method === 'POST') { s.loggedIn = false; save(s); return json({ ok: true }); }
     if (p === 'athlete/plans') return json({ plans: s.plans.filter(x => x.athlete_id === s.athlete.id && x.status === 'published') });
     if (p === 'athlete/progress' && method === 'GET') return json({ progress: s.progress });
@@ -90,7 +113,7 @@
     const messageMatch = p.match(/^admin\/athletes\/(\d+)\/messages(?:\/read)?$/);
     if (messageMatch && method === 'GET') return json({ messages: s.messages });
     if (messageMatch) { if (method === 'POST' && !p.endsWith('/read')) { s.messages.push({ id: Date.now(), sender_id: 0, body: body.body || '', created_at: new Date().toISOString() }); save(s); } return json({ ok: true }); }
-    return json({ ok: true, demo: true });
+    return json({ error: 'این عملیات در نسخه نمایشی فعال نیست.', demo: true }, 501);
   };
   window.addEventListener('DOMContentLoaded', function () {
     const banner = document.createElement('div');
