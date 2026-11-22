@@ -29,19 +29,19 @@
 
 ## ۳. نتایج آزمون ثبت‌شده برای نسخه 2.3.2
 
-نتایج زیر از GitHub Actions در اجرای موفق commit `684e2a38` ثبت شده‌اند. اجرای جدیدتر پس از افزودن مرحله lint جاوااسکریپت در جریان است.
+نتایج زیر از GitHub Actions در اجرای موفق commit `684e2a38` ثبت شده‌اند. آخرین اجرای CI در commit `a59eda2a` با موفقیت پایان یافت.
 
 | آزمون | نتیجه ثبت‌شده |
 |---|---:|
 | PHP syntax | 99/99 PASS در CI |
-| JavaScript syntax | 20/20 PASS |
+| JavaScript syntax | 20/20 PASS در CI |
 | رگرسیون مستقل از دیتابیس | 41/41 PASS در CI |
 | تست HTTP محدود با Laravel Kernel | 4/4 PASS |
 | تست محدود JavaScript سمت کلاینت | 4/4 PASS |
 | بررسی مسیرهای Checkout | PASS |
 | PHPUnit روی MySQL 8.0.46 | 30 tests / 146 assertions — PASS |
 
-وجود تست‌های Feature و تست هم‌زمانی MySQL روی دیتابیس موقت MySQL 8.0.46 اجرا شدند و 30 تست با 146 assertion موفق شدند. تست JavaScript lint نیز به Workflow افزوده شده و نتیجه اجرای جدید آن هنوز در انتظار است.
+وجود تست‌های Feature و تست هم‌زمانی MySQL روی دیتابیس موقت MySQL 8.0.46 اجرا شدند و 30 تست با 146 assertion موفق شدند. Syntax هر ۲۰ باندل JavaScript نیز در CI موفق شد.
 
 ## ۴. اصلاح امنیتی ثبت‌شده در شاخه main در 2026-11-22
 
