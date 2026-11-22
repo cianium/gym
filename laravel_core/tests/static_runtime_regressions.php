@@ -222,6 +222,13 @@ $check($replay['redirect']['method'] === 'GET'
     && str_contains($replay['redirect']['url'], 'pg/StartPay/A_VALID_ZARINPAL_AUTHORITY'),
     'Zarinpal repeated checkout keeps original bank GET URL');
 
+$initialSchema = file_get_contents(dirname(__DIR__) . '/database/migrations/2025_01_01_000001_create_white_label_schema.php');
+$mysqlCompatibilityMigration = file_get_contents(dirname(__DIR__) . '/database/migrations/2026_11_22_000001_remove_products_description_text_default.php');
+$check(!str_contains($initialSchema, "text('description')->default('')"),
+    'fresh MySQL schema does not declare an unsupported TEXT default');
+$check(str_contains($mysqlCompatibilityMigration, 'MODIFY `description` TEXT NOT NULL'),
+    'existing MySQL installations receive the TEXT default compatibility migration');
+
 $routes = file_get_contents(dirname(__DIR__) . '/routes/api.php');
 $check(substr_count($routes, "[CheckoutController::class, 'verifiedStore']") === 3,
     'both legacy checkout aliases point to verified controller');
