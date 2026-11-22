@@ -7,6 +7,8 @@
   window.__ARASH_DEMO_API__ = true;
   const KEY = 'arash_fitness_demo_state_v1';
   const csrf = 'ARASH-DEMO-CSRF';
+  let lastId = Date.now();
+  function nextId() { lastId = Math.max(Date.now(), lastId + 1); return lastId; }
   const seed = {
     athlete: { id: 101, name: 'مهدی رضایی', email: 'mehdi@example.test', phone: '09120000001', phone_verified: true },
     loggedIn: true,
@@ -81,7 +83,7 @@
     if (p === 'athlete/login' && method === 'POST') { s.loggedIn = true; save(s); return json({ authenticated: true, csrfToken: csrf, athlete: { id: s.athlete.id, name: s.athlete.name } }); }
     if (p === 'athlete/otp/request' && method === 'POST') { s.pendingPhone = String(body.phone || ''); save(s); return json({ ok: true, demo_code: '123456', message: 'کد نمایشی: 123456' }); }
     if (p === 'athlete/register' && method === 'POST') {
-      s.athlete = { id: Date.now(), name: String(body.name || 'ورزشکار دمو'), email: 'demo-athlete@example.test', phone: String(body.phone || s.pendingPhone || '09120000000'), phone_verified: true };
+      s.athlete = { id: nextId(), name: String(body.name || 'ورزشکار دمو'), email: 'demo-athlete@example.test', phone: String(body.phone || s.pendingPhone || '09120000000'), phone_verified: true };
       s.loggedIn = true; s.athletes.unshift({ id: s.athlete.id, name: s.athlete.name, email: s.athlete.email, phone: s.athlete.phone }); save(s);
       return json({ ok: true, authenticated: true, athlete: s.athlete });
     }
@@ -89,32 +91,32 @@
     if (p === 'athlete/logout' && method === 'POST') { s.loggedIn = false; save(s); return json({ ok: true }); }
     if (p === 'athlete/plans') return json({ plans: s.plans.filter(x => x.athlete_id === s.athlete.id && x.status === 'published') });
     if (p === 'athlete/progress' && method === 'GET') return json({ progress: s.progress });
-    if (p === 'athlete/progress' && method === 'POST') { s.progress.unshift({ id: Date.now(), ...body }); save(s); return json({ progress: s.progress[0] }); }
+    if (p === 'athlete/progress' && method === 'POST') { s.progress.unshift({ id: nextId(), ...body }); save(s); return json({ progress: s.progress[0] }); }
     if (p === 'athlete/orders') return json({ orders: s.orders });
     if (p === 'athlete/phone/otp/request' || p === 'athlete/phone/verify') return json({ ok: true, message: 'Demo: شماره به‌صورت نمونه تأیید شده است.' });
     if (p === 'athlete/consultations/slots') return json({ slots: s.slots.filter(x => x.is_active && !x.active_booking) });
     if (p === 'athlete/consultations/bookings' && method === 'GET') return json({ bookings: s.bookings.filter(x => x.athlete?.id === s.athlete.id) });
-    if (p === 'athlete/consultations/bookings' && method === 'POST') { s.bookings.unshift({ id: Date.now(), athlete: s.athlete, slot: s.slots.find(x => x.id === Number(body.slot_id)), starts_at: s.slots.find(x => x.id === Number(body.slot_id))?.starts_at, status: 'requested', athlete_note: body.note || '' }); save(s); return json({ ok: true }); }
-    if (p.startsWith('athlete/consultations/bookings/') && p.endsWith('/cancel')) { const id = Number(p.split('/')[3]); s.bookings = s.bookings.map(x => x.id === id ? { ...x, status: 'cancelled' } : x); save(s); return json({ ok: true }); }
+    if (p === 'athlete/consultations/bookings' && method === 'POST') { const slot = s.slots.find(x => x.id === Number(body.slot_id)); if (!slot || !slot.is_active || slot.active_booking) return json({ error: 'این زمان دیگر قابل رزرو نیست.' }, 409); slot.active_booking = true; const booking = { id: nextId(), athlete: clone(s.athlete), slot: clone(slot), starts_at: slot.starts_at, status: 'requested', athlete_note: body.note || '' }; s.bookings.unshift(booking); save(s); return json({ ok: true, booking }); }
+    if (p.startsWith('athlete/consultations/bookings/') && p.endsWith('/cancel')) { const id = Number(p.split('/')[3]); const booking = s.bookings.find(x => x.id === id); if (booking) { booking.status = 'cancelled'; const slot = s.slots.find(x => x.id === booking.slot?.id || x.starts_at === booking.starts_at); if (slot) slot.active_booking = false; } save(s); return json({ ok: true }); }
     if (p === 'athlete/messages' && method === 'GET') return json({ messages: s.messages });
-    if (p === 'athlete/messages' && method === 'POST') { s.messages.push({ id: Date.now(), sender_id: s.athlete.id, body: body.body || '', created_at: new Date().toISOString() }); save(s); return json({ ok: true }); }
+    if (p === 'athlete/messages' && method === 'POST') { s.messages.push({ id: nextId(), sender_id: s.athlete.id, body: body.body || '', created_at: new Date().toISOString() }); save(s); return json({ ok: true }); }
     if (p === 'athlete/messages/read') return json({ ok: true });
     if (p === 'admin/athletes' && method === 'GET') return json({ athletes: s.athletes });
-    if (p === 'admin/athletes' && method === 'POST') { const a = { id: Date.now(), ...body }; s.athletes.push(a); save(s); return json({ athlete: a }); }
+    if (p === 'admin/athletes' && method === 'POST') { const a = { id: nextId(), ...body }; s.athletes.push(a); save(s); return json({ athlete: a }); }
     if (p === 'admin/training-plans' && method === 'GET') return json({ plans: { data: s.plans } });
-    if (p === 'admin/training-plans' && (method === 'POST' || method === 'PUT')) { const item = { id: Date.now(), ...body }; s.plans.unshift(item); save(s); return json({ plan: item }); }
+    if (p === 'admin/training-plans' && (method === 'POST' || method === 'PUT')) { const item = { id: nextId(), ...body }; s.plans.unshift(item); save(s); return json({ plan: item }); }
     if (/^admin\/athletes\/\d+\/progress$/.test(p)) return json({ progress: s.progress });
     if (p === 'admin/consultation-slots' && method === 'GET') return json({ slots: s.slots });
-    if (p === 'admin/consultation-slots' && method === 'POST') { s.slots.push({ id: Date.now(), starts_at: body.starts_at, ends_at: body.ends_at, is_active: true, active_booking: false }); save(s); return json({ ok: true }); }
+    if (p === 'admin/consultation-slots' && method === 'POST') { s.slots.push({ id: nextId(), starts_at: body.starts_at, ends_at: body.ends_at, is_active: true, active_booking: false }); save(s); return json({ ok: true }); }
     if (p.startsWith('admin/consultation-slots/') && p.endsWith('/disable')) { const id = Number(p.split('/')[2]); s.slots = s.slots.map(x => x.id === id ? { ...x, is_active: false } : x); save(s); return json({ ok: true }); }
     if (p === 'admin/consultation-bookings') return json({ bookings: s.bookings });
-    if (p.startsWith('admin/consultation-bookings/') && p.endsWith('/status')) { const id = Number(p.split('/')[2]); s.bookings = s.bookings.map(x => x.id === id ? { ...x, status: body.status } : x); save(s); return json({ ok: true }); }
+    if (p.startsWith('admin/consultation-bookings/') && p.endsWith('/status')) { const id = Number(p.split('/')[2]); const booking = s.bookings.find(x => x.id === id); if (booking) { booking.status = body.status; if (body.status === 'cancelled') { const slot = s.slots.find(x => x.id === booking.slot?.id || x.starts_at === booking.starts_at); if (slot) slot.active_booking = false; } } save(s); return json({ ok: true }); }
     if (p === 'admin/consultation-leads') return json({ leads: s.leads });
     if (p.startsWith('admin/consultation-leads/') && p.endsWith('/status')) { const id = Number(p.split('/')[2]); s.leads = s.leads.map(x => x.id === id ? { ...x, status: body.status } : x); save(s); return json({ ok: true }); }
     if (p === 'admin/consultation-sms-status') return json({ unknown_count: 0, recent: [] });
     const messageMatch = p.match(/^admin\/athletes\/(\d+)\/messages(?:\/read)?$/);
     if (messageMatch && method === 'GET') return json({ messages: s.messages });
-    if (messageMatch) { if (method === 'POST' && !p.endsWith('/read')) { s.messages.push({ id: Date.now(), sender_id: 0, body: body.body || '', created_at: new Date().toISOString() }); save(s); } return json({ ok: true }); }
+    if (messageMatch) { if (method === 'POST' && !p.endsWith('/read')) { s.messages.push({ id: nextId(), sender_id: 0, body: body.body || '', created_at: new Date().toISOString() }); save(s); } return json({ ok: true }); }
     return json({ error: 'این عملیات در نسخه نمایشی فعال نیست.', demo: true }, 501);
   };
   window.addEventListener('DOMContentLoaded', function () {
