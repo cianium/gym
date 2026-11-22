@@ -78,6 +78,67 @@ class SecurityAndRecoveryTest extends TestCase
         $this->assertSame('initiated', PaymentTransaction::where('order_id', $order->id)->value('status'));
     }
 
+    public function test_expiry_skips_pending_orders_with_non_terminal_payment_transactions(): void
+    {
+        $unresolvedStatuses = ['processing', 'verification_pending', 'reconciliation_required', 'verified'];
+        $unresolved = [];
+
+        foreach ($unresolvedStatuses as $status) {
+            $suffix = str_replace('_', '-', $status);
+            $productId = 'expiry-' . $suffix;
+            $product = Product::create([
+                'id' => $productId,
+                'type' => 'physical',
+                'title' => 'Expiry guard ' . $status,
+                'price_toman' => 100000,
+                'status' => 'published',
+                'stock' => 10,
+                'reserved_stock' => 1,
+            ]);
+            $order = Order::create([
+                'id' => 'expiry-order-' . $suffix,
+                'order_number' => 'EXP-' . strtoupper($suffix),
+                'tracking_code' => 'EXP-TRACK-' . strtoupper($suffix),
+                'access_token' => bin2hex(random_bytes(24)),
+                'gateway' => 'zarinpal',
+                'payment_status' => 'pending',
+                'fulfillment_status' => 'pending',
+                'stock_reserved' => true,
+                'customer_name' => 'Test Customer',
+                'customer_phone' => '09121111111',
+                'subtotal_toman' => 100000,
+                'total_amount_toman' => 100000,
+            ]);
+            $order->forceFill(['created_at' => now()->subHours(2)])->save();
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'title' => $product->title,
+                'type' => 'physical',
+                'qty' => 1,
+                'unit_price_toman' => 100000,
+            ]);
+            PaymentTransaction::create([
+                'order_id' => $order->id,
+                'gateway' => 'zarinpal',
+                'authority_or_token' => 'expiry-token-' . $suffix,
+                'amount_toman' => 100000,
+                'currency' => 'IRT',
+                'status' => $status,
+            ]);
+            $unresolved[] = [$order, $product];
+        }
+
+        $expired = app(PaymentService::class)->expireStalePendingOrders(30);
+
+        $this->assertSame(0, $expired);
+        foreach ($unresolved as [$order, $product]) {
+            $this->assertSame('pending', $order->fresh()->payment_status);
+            $this->assertTrue((bool) $order->fresh()->stock_reserved);
+            $this->assertSame(1, (int) $product->fresh()->reserved_stock);
+        }
+    }
+
     public function test_admin_cannot_refund_or_fulfill_an_unpaid_order(): void
     {
         $order = Order::create([
