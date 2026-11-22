@@ -14,7 +14,7 @@
 6. **بازیابی دستور انتقال پرداخت:** تکرار درخواست با همان کلید، حتی بدون کش، آدرس واقعی GET زرین‌پال یا POST بانک سامان (با Token) را از تراکنش ثبت‌شده بازسازی می‌کند. در حالت paid/processing/verification_pending، کاربر به صفحه نتیجه سفارش برمی‌گردد؛ در سفارش لغوشده یا ناموفق اجازه پرداخت مجدد با کلید کهنه داده نمی‌شود.
 7. **مدیریت برخورد هم‌زمان:** خطای برخورد یکتایی کلید سفارش هنگام رقابت درخواست‌ها به پاسخ قابل retry تبدیل شد؛ این وضعیت دیگر به‌اشتباه خطای عمومی سرور معرفی نمی‌شود.
 8. **Cache busting فرانت‌اند:** فایل جاوااسکریپت تغییر یافته با نام هش‌شده تازه `index-e0f6d038bb.js` ارجاع داده می‌شود تا کاربر نسخه قدیمی و ناسازگار خرید را از کش مرورگر دریافت نکند.
-9. **سازگاری بکاپ:** `SystemMaintenanceController::RELEASE_VERSION` به 2.3.2 تغییر یافت، در عین حال خواندن بکاپ‌های تأییدشده نسخه 2.3.1 حفظ شد. هیچ migration جدیدی برای این بسته لازم نیست؛ migrationهای نسخه قبلی باید روی هاست اعمال شده باشند.
+9. **سازگاری بکاپ:** `SystemMaintenanceController::RELEASE_VERSION` به 2.3.2 تغییر یافت، در عین حال خواندن بکاپ‌های تأییدشده نسخه 2.3.1 حفظ شد. برای سازگاری با MySQL 8، Migration اصلاحی `2026_11_22_000001_remove_products_description_text_default` افزوده شده است. روی نصب‌های موجود، پس از بکاپ، `php artisan migrate --force` اجرا شود.
 
 ## نتیجه آزمون‌هایی که واقعاً اجرا شدند
 
@@ -49,6 +49,7 @@
 
 ## فایل‌های کلیدی تغییرکرده
 
+- `laravel_core/database/migrations/2026_11_22_000001_remove_products_description_text_default.php`
 - `laravel_core/routes/api.php`
 - `laravel_core/app/Http/Controllers/Api/V1/CheckoutController.php`
 - `laravel_core/app/Http/Controllers/Api/V1/AthleteRegistrationController.php`
