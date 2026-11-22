@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -42,7 +42,7 @@ jobs:
           coverage: none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
@@ -54,6 +54,9 @@ jobs:
           mkdir -p laravel_core/storage/framework/views
           mkdir -p laravel_core/storage/logs
           chmod -R u+rwX laravel_core/bootstrap/cache laravel_core/storage
+
+      - name: JavaScript asset syntax checks
+        run: find public_html/assets -type f -name '*.js' -print0 | xargs -0 -n1 node --check
 
       - name: Install Composer dependencies
         run: composer install --working-dir=laravel_core --no-interaction --prefer-dist --no-progress
