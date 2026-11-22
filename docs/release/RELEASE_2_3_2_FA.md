@@ -4,6 +4,17 @@
 **نسخه مبنا:** `ARASH_FITNESS_ENHANCED_2_3_1_PATCHED_STAGING_2026-11-10.zip`  
 **وضعیت:** **STAGING ONLY — انتشار تجاری تأیید نشده**
 
+## اعتبارسنجی CI پس از اصلاحات 2026-11-22
+
+- 99 فایل PHP: Syntax PASS
+- 20 باندل JavaScript: Syntax PASS
+- 41 رگرسیون مستقل از دیتابیس: PASS
+- Route security smoke: 4/4 PASS
+- Client checkout gate: 4/4 PASS
+- PHPUnit روی MySQL 8.0.46: 30 تست و 146 assertion PASS
+
+اجرای مرجع: [GitHub Actions — successful CI](https://github.com/cianium/gym/actions/runs/44965142881). تست‌های واقعی پیامک، درگاه بانکی و نصب cPanel همچنان خارج از CI و نیازمند Staging هستند.
+
 ## تغییرات اعمال‌شده (در سورس واقعی پروژه)
 
 1. **اجباری شدن حساب ورزشکار تأییدشده برای هر خرید:** سه مسیر `/api/checkout`، `/api/v1/checkout` و `/api/v1/athlete/checkout` همگی به `CheckoutController::verifiedStore` و middlewareهای `athlete.auth` و `admin.csrf` وصل شدند. کنترل مستقیم در `CheckoutController::store` هم وجود دارد؛ تغییر `.env` امکان بازکردن خرید مهمان را ندارد.
