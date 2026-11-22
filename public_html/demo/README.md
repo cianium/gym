@@ -20,7 +20,8 @@ No PHP, Laravel, Composer, database, API, SMS provider, payment gateway, or serv
 - Admin dashboard, athlete directory, coaches, membership plans, training programs, appointments, finance summary, and settings.
 - Athlete dashboard, profile editing, training plan, progress update, appointment request, coach message, and membership card.
 - Add/remove sample athletes and add sample list items.
-- Demo changes persist in browser LocalStorage.
+- Athlete records, profile edits, and progress updates persist in browser LocalStorage.
+- Booking requests, messages, and generic list additions are temporary visual simulations and reset when the view is re-rendered or the page is reloaded.
 - User-entered display values are HTML-escaped before rendering.
 - Responsive RTL layout for desktop and mobile.
 
