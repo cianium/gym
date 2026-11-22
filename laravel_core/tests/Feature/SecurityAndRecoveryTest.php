@@ -129,9 +129,52 @@ class SecurityAndRecoveryTest extends TestCase
             $unresolved[] = [$order, $product];
         }
 
+        $abandonedProduct = Product::create([
+            'id' => 'expiry-abandoned-physical',
+            'type' => 'physical',
+            'title' => 'Abandoned checkout',
+            'price_toman' => 100000,
+            'status' => 'published',
+            'stock' => 10,
+            'reserved_stock' => 1,
+        ]);
+        $abandonedOrder = Order::create([
+            'id' => 'expiry-order-abandoned',
+            'order_number' => 'EXP-ABANDONED',
+            'tracking_code' => 'EXP-TRACK-ABANDONED',
+            'access_token' => bin2hex(random_bytes(24)),
+            'gateway' => 'zarinpal',
+            'payment_status' => 'pending',
+            'fulfillment_status' => 'pending',
+            'stock_reserved' => true,
+            'customer_name' => 'Test Customer',
+            'customer_phone' => '09121111111',
+            'subtotal_toman' => 100000,
+            'total_amount_toman' => 100000,
+        ]);
+        $abandonedOrder->forceFill(['created_at' => now()->subHours(2)])->save();
+        OrderItem::create([
+            'order_id' => $abandonedOrder->id,
+            'product_id' => $abandonedProduct->id,
+            'title' => $abandonedProduct->title,
+            'type' => 'physical',
+            'qty' => 1,
+            'unit_price_toman' => 100000,
+        ]);
+        PaymentTransaction::create([
+            'order_id' => $abandonedOrder->id,
+            'gateway' => 'zarinpal',
+            'authority_or_token' => 'expiry-token-abandoned',
+            'amount_toman' => 100000,
+            'currency' => 'IRT',
+            'status' => 'initiated',
+        ]);
+
         $expired = app(PaymentService::class)->expireStalePendingOrders(30);
 
-        $this->assertSame(0, $expired);
+        $this->assertSame(1, $expired);
+        $this->assertSame('cancelled', $abandonedOrder->fresh()->payment_status);
+        $this->assertSame(0, (int) $abandonedProduct->fresh()->reserved_stock);
         foreach ($unresolved as [$order, $product]) {
             $this->assertSame('pending', $order->fresh()->payment_status);
             $this->assertTrue((bool) $order->fresh()->stock_reserved);
