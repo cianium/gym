@@ -38,7 +38,7 @@ use RuntimeException;
 class SystemMaintenanceController
 {
     public const RELEASE_VERSION = '2.3.2';
-    public const SCHEMA_VERSION = '2026_11_10_000002';
+    public const SCHEMA_VERSION = '2026_11_22_000001';
     // Retain the signed 2.2.0 payload envelope for backwards-compatible imports.
     public const BACKUP_FORMAT = 'white-label-fitness-backup-v2.2.0';
 
