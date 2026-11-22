@@ -8,7 +8,8 @@
 const seed={members:248,active:213,revenue:186500000,appointments:18,week:[42,68,54,82,61,92,74],athlete:"کیان رضایی",goal:78,workouts:4};
 function readState(){try{return Object.assign({},seed,JSON.parse(localStorage.getItem("arash-demo-state")||"{}"))}catch(e){return Object.assign({},seed)}}
 let state=readState(),role="",page="dashboard";
-const $=id=>document.getElementById(id);\nfunction esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\\"","&quot;").replaceAll("\\'","&#39;")}
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??"").split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split(String.fromCharCode(34)).join("&quot;").split(String.fromCharCode(39)).join("&#39;")}
 function save(){try{localStorage.setItem("arash-demo-state",JSON.stringify(state))}catch(e){notify("ذخیره مرورگر در دسترس نیست")}}
 function notify(s){const t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove("show"),2200)}
 function entry(){role="";$("app").innerHTML='<div class="shell login"><div class="top"><div class="brand"><div class="mark">A</div><div><strong>ARASH FITNESS</strong><small>باشگاه و پلتفرم مدیریت هوشمند</small></div></div><span class="demo-tag">INTERACTIVE DEMO</span></div><section class="card"><h1>به تجربه ARASH Fitness خوش آمدید</h1><p>یک محیط را انتخاب کنید. اطلاعات نمونه است و هیچ عملیات واقعی مالی یا ثبت‌نامی انجام نمی‌شود.</p><div class="role-grid"><button class="role" data-role="admin"><b>▦ پنل مدیریت باشگاه</b><span>داشبورد، ورزشکاران، مربیان، اشتراک‌ها و گزارش‌ها</span></button><button class="role" data-role="athlete"><b>◉ پنل ورزشکار</b><span>پروفایل، برنامه تمرینی، پیشرفت، رزرو و کارت عضویت</span></button></div></section></div>'}
