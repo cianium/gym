@@ -138,8 +138,7 @@ class PaymentService
                 // payment_status check, protecting inconsistent/legacy records.
                 $transactions = PaymentTransaction::where('order_id', $locked->id)
                     ->orderByDesc('id')
-                    ->lockForUpdate()
-                    ->get();
+                    ->get(['id', 'status']);
                 $hasNonTerminalTransaction = $transactions->contains(
                     fn (PaymentTransaction $transaction): bool =>
                         ! in_array($transaction->status, ['initiated', 'failed', 'cancelled'], true)
