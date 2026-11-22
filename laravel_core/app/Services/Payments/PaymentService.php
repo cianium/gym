@@ -133,6 +133,21 @@ class PaymentService
                     return;
                 }
 
+                // Fail closed if any transaction is still unresolved or already
+                // verified. This is a second guard in addition to the order
+                // payment_status check, protecting inconsistent/legacy records.
+                $transactions = PaymentTransaction::where('order_id', $locked->id)
+                    ->orderByDesc('id')
+                    ->lockForUpdate()
+                    ->get();
+                $hasNonTerminalTransaction = $transactions->contains(
+                    fn (PaymentTransaction $transaction): bool =>
+                        ! in_array($transaction->status, ['initiated', 'failed', 'cancelled'], true)
+                );
+                if ($hasNonTerminalTransaction) {
+                    return;
+                }
+
                 if ($locked->stock_reserved || $locked->discount_reserved) {
                     $this->releaseReservedInventory($locked);
                     $locked->refresh();
@@ -142,12 +157,8 @@ class PaymentService
                 $locked->save();
 
                 /** @var PaymentTransaction|null $tx */
-                $tx = PaymentTransaction::where('order_id', $locked->id)
-                    ->where('status', 'initiated')
-                    ->latest('id')
-                    ->first();
-
-                if ($tx) {
+                $tx = $transactions->first();
+                if ($tx && $tx->status === 'initiated') {
                     $tx->status = 'cancelled';
                     $tx->last_error = 'EXPIRED_ABANDONED_CHECKOUT';
                     $tx->save();
