@@ -1,27 +1,10 @@
-export const dynamic = 'force-dynamic';
-type Overview = { mode: 'demo'; athletes: number; coaches: number; activePlans: number; appointments: number };
-async function load(): Promise<Overview | null> {
-  try {
-    const response = await fetch((process.env.FTA_API_URL ?? 'http://127.0.0.1:4000') + '/api/v1/demo/overview', { cache: 'no-store', signal: AbortSignal.timeout(3000) });
-    if (!response.ok) return null;
-    const data = await response.json();
-    if (data.mode !== 'demo' || !['athletes','coaches','activePlans','appointments'].every(k => Number.isSafeInteger(data[k]) && data[k] >= 0)) return null;
-    return data as Overview;
-  } catch { return null; }
-}
-export default async function Page() {
-  const data = await load();
-  return <main style={{maxWidth:1000,margin:'auto',padding:'48px 24px'}}>
-    <header style={{borderBottom:'1px solid #39443d',paddingBottom:24}}>
-      <strong dir="ltr" style={{fontSize:36,letterSpacing:6,color:'#c5f36b'}}>FTA</strong>
-      <p dir="ltr" style={{textAlign:'right'}}>Fitness Training &amp; Administration</p>
-    </header>
-    <p style={{color:'#c5f36b'}}>نسخه نمایشی • اطلاعات ساختگی</p>
-    <h1>مرکز مدیریت تناسب اندام</h1>
-    <p>نمای اولیه داشبورد نسل جدید FTA. هیچ عملیات مالی یا اطلاعات واقعی در این محیط وجود ندارد.</p>
-    {data ? <section style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(135px,1fr))',gap:16}}>
-      {[['ورزشکاران',data.athletes],['مربیان',data.coaches],['برنامه فعال',data.activePlans],['جلسات',data.appointments]].map(([label,value])=><article key={label} style={{padding:20,border:'1px solid #39443d',borderRadius:16,background:'#1c251f'}}><p>{label}</p><strong style={{fontSize:30,color:'#c5f36b'}}>{value}</strong></article>)}
-    </section> : <p role="status">سرویس نمایشی در دسترس نیست.</p>}
-    <footer style={{marginTop:48,color:'#b9c4bc'}}>FTA · Train. Manage. Grow.</footer>
-  </main>;
+import Link from 'next/link';
+import {demoGet} from './demo-data';
+export const dynamic='force-dynamic';
+type Overview={mode:'demo';athletes:number;coaches:number;activePlans:number;appointments:number};
+export default async function Home(){
+ const d=await demoGet<Overview>('overview');
+ return <main className="shell"><p className="eyebrow" dir="ltr" style={{textAlign:'right'}}>FITNESS TRAINING &amp; ADMINISTRATION</p><h1>مرکز مدیریت تناسب اندام</h1><p>پلتفرم مستقل مدیریت مربیان و ورزشکاران. نسخه نمایشی با اطلاعات نمونه.</p>
+ <section aria-label="شاخص‌های نمونه">{d&&d.mode==='demo'?<div className="cards">{[['ورزشکاران',d.athletes],['مربیان',d.coaches],['برنامه‌های فعال',d.activePlans],['جلسات',d.appointments]].map(([label,value])=><article key={label}><p>{label}</p><strong style={{fontSize:32,color:'var(--accent)'}}>{Number(value).toLocaleString('fa-IR')}</strong></article>)}</div>:<p role="status">سرویس نمایشی در دسترس نیست.</p>}</section>
+ <section className="cards"><article><h2>پنل مدیریت</h2><p>نمای ورزشکاران، مربیان، جلسات، برنامه‌ها و محصولات.</p><Link href="/admin">مشاهده دمو مدیریت</Link></article><article><h2>پنل ورزشکار</h2><p>برنامه تمرینی، مربی و جلسات نمونه.</p><Link href="/athlete">مشاهده دمو ورزشکار</Link></article></section></main>;
 }
