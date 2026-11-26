@@ -9,7 +9,15 @@ for(const viewport of viewports){
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)failed.push(r.status()+' '+r.url());});
   const snap=async name=>{await page.screenshot({path:info.outputPath(name+'.png'),animations:'disabled'});};
-  const width=async()=>expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBeTruthy();
+  const width=async label=>{
+   const layout=await page.evaluate(()=>{
+    const w=innerWidth, doc=document.documentElement;
+    const outside=[...document.querySelectorAll('body *')].map(e=>{const r=e.getBoundingClientRect();return {tag:e.tagName,cls:typeof e.className==='string'?e.className.slice(0,150):'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),scroll:e.scrollWidth,client:e.clientWidth}}).filter(e=>e.width>0&&(e.left< -2||e.right>w+2)).sort((a,b)=>b.width-a.width).slice(0,12);
+    return {viewport:w,scroll:doc.scrollWidth,outside};
+   });
+   if(layout.scroll>layout.viewport+2) console.log('LAYOUT_DIAGNOSTIC '+label+' '+JSON.stringify(layout));
+   expect.soft(layout.scroll,label+' document overflow').toBeLessThanOrEqual(layout.viewport+2);
+  };
   for(const [hash,marker,label] of [
    ['',/مربی نمونه FTA/,'01-home'],
    ['#/shop',/پروتکل ۱۲ هفته/,'02-shop'],
@@ -22,7 +30,7 @@ for(const viewport of viewports){
    await page.goto(base+'index.html'+hash);
    await expect(page.locator('#root')).not.toBeEmpty();
    await expect(page.locator('#root').getByText(marker).first()).toBeVisible({timeout:20000});
-   await width();await snap(label);
+   await snap(label);await width(label);
   }
   for(const [file,selector,label] of [
    ['athlete.html','#dashboard','08-athlete'],
@@ -30,7 +38,7 @@ for(const viewport of viewports){
    ['coach-athletes.html','#content','10-coach'],
    ['coach-schedule.html','#dashboard','11-schedule']
   ]){
-   await page.goto(base+file);await expect(page.locator(selector)).toBeVisible({timeout:15000});await width();await snap(label);
+   await page.goto(base+file);await expect(page.locator(selector)).toBeVisible({timeout:15000});await snap(label);await width(label);
   }
   // Exercise the cross-portal conversation and verify persistence.
   await page.goto(base+'athlete.html');
