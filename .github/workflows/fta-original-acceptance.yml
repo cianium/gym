@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v5
         with:
-          ref: f6d1fa408486fe291bdd090faa27f03dd2b25919
+          ref: 1e5e97e1efa7f55837e367136768f4ff120edf12
           path: preview/gym
           persist-credentials: false
       - uses: actions/setup-node@v4
