@@ -8,6 +8,8 @@ use App\Http\Middleware\ApplySecurityHeaders;
 use App\Http\Middleware\VerifyAdminCsrfToken;
 use App\Http\Resources\BootstrapResource;
 use App\Models\User;
+use App\Models\Order;
+use App\Policies\OrderPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -32,11 +34,14 @@ class AdminRotationAndPermissionsTest extends TestCase
         $request = Request::create('/api/v1/bootstrap');
         $request->setUserResolver(fn () => $admin);
         $this->assertArrayNotHasKey('orders', $resource->resolve($request));
+        $order = new Order(['access_token' => 'synthetic-qa-token']);
+        $this->assertFalse(app(OrderPolicy::class)->view($admin, $order));
         $this->postJson('/api/v1/auth/admin/password', [
             'currentPassword' => 'OldTestPassword123!',
             'newPassword' => 'NewTestPassword123!',
         ])->assertOk();
         $this->assertFalse($admin->fresh()->must_change_password);
+        $this->assertTrue(app(OrderPolicy::class)->view($admin->fresh(), $order));
         $this->actingAs($admin->fresh())->getJson('/api/v1/admin/products')->assertOk();
     }
 
@@ -53,5 +58,7 @@ class AdminRotationAndPermissionsTest extends TestCase
         }
         $response = $middleware->handle(Request::create('/api/v1/bootstrap'), fn () => response('ok'));
         $this->assertStringContainsString('no-store', $response->headers->get('Cache-Control'));
+        $private = $middleware->handle(Request::create('/api/v1/downloads/example'), fn () => response('ok')->header('Referrer-Policy', 'no-referrer'));
+        $this->assertSame('no-referrer', $private->headers->get('Referrer-Policy'));
     }
 }
