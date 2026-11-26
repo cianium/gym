@@ -196,3 +196,17 @@ video {
  [data-testid="admin-layout"] [class*="flex"][class*="justify-between"]:has(>div>select[aria-label="انتخاب سریع بخش برای سفارشی‌سازی"]){flex-wrap:wrap}
  [data-testid="admin-layout"] [class*="flex"]>select{max-width:100%;min-width:0}
 }
+
+/* Very narrow devices: allow the editor controls to reflow while keeping the
+   device mockup at its selected width inside its own scrolling viewport. */
+@media(max-width:360px){
+ [data-testid="admin-layout"] main [class*="p-6"],
+ [data-testid="admin-layout"] main [class*="p-5"]{padding:12px}
+ [data-testid="admin-layout"] main [class*="px-6"],
+ [data-testid="admin-layout"] main [class*="px-5"]{padding-inline:12px}
+ [data-testid="admin-layout"] main [class*="flex"][class*="gap-"]:has(>button):not([class*="overflow-x-auto"]){flex-wrap:wrap}
+ [data-testid="admin-layout"] main button{max-inline-size:100%}
+ [data-testid="admin-layout"] main button:not([class*="shrink-0"]){white-space:normal;overflow-wrap:anywhere}
+ [data-testid="section-live-preview-scroll-wrapper"]{display:block;width:100%;max-width:100%;min-width:0}
+ [data-testid="admin-layout"] main [class*="grid-cols-"]{grid-template-columns:minmax(0,1fr)}
+}
