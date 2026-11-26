@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="510" viewBox="0 0 1200 510" role="img" aria-labelledby="title desc">
+<title id="title">ARASH FITNESS — The coaching operating system</title>
+<desc id="desc">Black and gold editorial brand cover with a geometric AF monogram and three pillars: train, coach, operate.</desc>
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#151819"/><stop offset="1" stop-color="#080a0b"/></linearGradient>
+ <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#fff0b4"/><stop offset=".45" stop-color="#d6ad62"/><stop offset="1" stop-color="#8b6033"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#c29b58" stop-opacity=".19"/><stop offset="1" stop-color="#c29b58" stop-opacity="0"/></radialGradient>
+ <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0H0V34" fill="none" stroke="#c7ae81" stroke-opacity=".07"/></pattern>
+</defs>
+<rect x="1" y="1" width="1198" height="508" rx="24" fill="url(#bg)" stroke="#665536" stroke-width="2"/>
+<rect x="18" y="18" width="1164" height="474" rx="15" fill="none" stroke="#35352d"/>
+<rect x="19" y="19" width="1162" height="472" rx="14" fill="url(#grid)"/>
+<ellipse cx="945" cy="230" rx="310" ry="235" fill="url(#glow)"/>
+<path d="M790 19 1181 410 M860 19 1181 340 M930 19 1181 270" stroke="#d6ad62" stroke-opacity=".11"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="60" y="56" width="8" height="8" fill="#d6ad62"/><text x="82" y="65" fill="#cbb48a" font-size="13" letter-spacing="4">INDEPENDENT COACHING / DIGITAL PLATFORM</text>
+<text x="60" y="151" fill="#f5f3ee" font-size="77" font-weight="800" letter-spacing="-3">ARASH</text>
+<text x="57" y="239" fill="url(#gold)" font-size="91" font-weight="800" letter-spacing="-4">FITNESS.</text>
+<path d="M62 271H640" stroke="#514735"/>
+<text x="62" y="307" fill="#e7e5df" font-size="23" font-weight="600">The coaching operating system.</text>
+<text x="62" y="339" fill="#9fa4a4" font-size="17">Athlete experience. Coaching intelligence. Business operations.</text>
+<g transform="translate(787 100)">
+<circle cx="150" cy="132" r="132" fill="none" stroke="#d6ad62" stroke-opacity=".28"/>
+<circle cx="150" cy="132" r="115" fill="none" stroke="#d6ad62" stroke-dasharray="2 7" stroke-opacity=".55"/>
+<path d="M45 204 128 55h24l83 149h-33l-20-39h-77l-20 39Zm75-67h47l-23-48Z" fill="url(#gold)"/>
+<path d="M174 55h76v26h-60l-15-26Zm25 62h51v25h-37Z" fill="#f2e6cd"/>
+<path d="M150 0v14M150 250v14M18 132h14M268 132h14" stroke="#d6ad62" stroke-width="2"/>
+</g>
+<path d="M60 382H1140" stroke="#514735"/>
+<g font-size="12" letter-spacing="2" fill="#b1a691"><text x="62" y="414">01 / EXPERIENCE</text><text x="432" y="414">02 / PERFORMANCE</text><text x="805" y="414">03 / OPERATIONS</text></g>
+<g font-size="26" font-weight="700" fill="#f1efe8"><text x="62" y="451">TRAIN.</text><text x="432" y="451">COACH.</text><text x="805" y="451">OPERATE.</text></g>
+<path d="M394 398v63M767 398v63" stroke="#35352d"/>
+</g></svg>
