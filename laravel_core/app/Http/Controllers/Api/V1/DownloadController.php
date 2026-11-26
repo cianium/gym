@@ -88,6 +88,9 @@ class DownloadController
 
         // 5. Strict Cryptographic Ownership Verification (Phone number + Order ID alone is NEVER sufficient!)
         $user = $request->user();
+        if ($user !== null && $user->role === 'admin' && $user->must_change_password) {
+            return response()->json(['error' => 'ابتدا رمز عبور مدیریت را تغییر دهید.', 'code' => 'PASSWORD_CHANGE_REQUIRED'], 403);
+        }
         $isAdmin = $user !== null && $user->role === 'admin';
         // No customer OTP/verified-phone login exists in this release. A plain
         // athlete account's self-declared phone number must never grant access
