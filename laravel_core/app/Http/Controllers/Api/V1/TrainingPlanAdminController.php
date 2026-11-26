@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class TrainingPlanAdminController
 {
@@ -68,8 +69,15 @@ class TrainingPlanAdminController
         if (! User::where('role', 'athlete')->whereKey($data['athlete_id'])->exists()) {
             return response()->json(['error' => 'ورزشکار معتبر نیست.'], 422);
         }
-        $plan->update($data);
-        return response()->json(['plan' => $plan->refresh()]);
+        return DB::transaction(function () use ($plan, $data): JsonResponse {
+            $locked = TrainingPlan::query()->whereKey($plan->id)->lockForUpdate()->firstOrFail();
+            if ((int) $locked->athlete_id !== (int) $data['athlete_id']
+                && TrainingProgress::where('training_plan_id', $locked->id)->exists()) {
+                return response()->json(['error' => 'برنامه دارای سابقه تمرین قابل انتقال نیست.'], 409);
+            }
+            $locked->update($data);
+            return response()->json(['plan' => $locked->refresh()]);
+        }, 3);
     }
 
     private function validated(Request $request): array
@@ -79,13 +87,13 @@ class TrainingPlanAdminController
             'title' => ['required', 'string', 'max:180'],
             'description' => ['nullable', 'string', 'max:10000'],
             'sessions' => ['required', 'array', 'min:1', 'max:30'],
-            'sessions.*.day' => ['required', 'string', 'max:80'],
+            'sessions.*.day' => ['required', 'string', 'max:80', 'distinct:strict'],
             'sessions.*.exercises' => ['required', 'array', 'min:1', 'max:40'],
             'sessions.*.exercises.*.name' => ['required', 'string', 'max:180'],
             'sessions.*.exercises.*.sets' => ['nullable', 'integer', 'min:1', 'max:30'],
             'sessions.*.exercises.*.reps' => ['nullable', 'string', 'max:60'],
-            'starts_on' => ['nullable', 'date'],
-            'ends_on' => ['nullable', 'date', 'after_or_equal:starts_on'],
+            'starts_on' => ['nullable', 'date_format:Y-m-d'],
+            'ends_on' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:starts_on'],
             'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
         ]);
     }

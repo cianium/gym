@@ -20,7 +20,7 @@ class OrderPolicy
     public function view(?User $user, Order $order, ?string $providedToken = null): bool
     {
         if ($user && $user->role === 'admin') {
-            return true;
+            return ! $user->must_change_password;
         }
 
         // A proven (OTP-verified) athlete mobile number is an ownership

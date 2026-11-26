@@ -13,12 +13,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AthletePortalController
 {
     public function login(Request $request): JsonResponse
     {
-        $data = $request->validate(['identifier' => ['required', 'string', 'max:255'], 'password' => ['required', 'string']]);
+        $data = $request->validate(['identifier' => ['required', 'string', 'max:255'], 'password' => ['required', 'string', 'max:255']]);
         $identifier = trim($data['identifier']);
         $phone = strtr($identifier, ['۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9','٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9']);
         if (str_starts_with($phone, '+98')) $phone = '0'.substr($phone, 3);
@@ -90,25 +91,32 @@ class AthletePortalController
     {
         $data = $request->validate([
             'training_plan_id' => ['required', 'integer'],
-            'performed_on' => ['required', 'date', 'before_or_equal:today'],
+            'performed_on' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
             'session_day' => ['required', 'string', 'max:80'],
             'effort' => ['nullable', 'integer', 'between:1,10'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ]);
-        $plan = TrainingPlan::where('athlete_id', $request->user()->id)
-            ->where('status', 'published')->find($data['training_plan_id']);
-        if (! $plan) return response()->json(['error' => 'برنامه معتبر نیست.'], 404);
-        $days = collect($plan->sessions ?? [])->pluck('day')->all();
-        if (! in_array($data['session_day'], $days, true)) {
-            return response()->json(['error' => 'روز تمرینی در برنامه وجود ندارد.'], 422);
-        }
-        $entry = TrainingProgress::updateOrCreate([
-            'athlete_id' => $request->user()->id,
-            'training_plan_id' => $plan->id,
-            'performed_on' => $data['performed_on'],
-            'session_day' => $data['session_day'],
-        ], ['effort' => $data['effort'] ?? null, 'notes' => $data['notes'] ?? null]);
-        return response()->json(['progress' => $entry]);
+        return DB::transaction(function () use ($request, $data): JsonResponse {
+            $plan = TrainingPlan::where('athlete_id', $request->user()->id)
+                ->where('status', 'published')->lockForUpdate()->find($data['training_plan_id']);
+            if (! $plan) return response()->json(['error' => 'برنامه معتبر نیست.'], 404);
+            $days = collect($plan->sessions ?? [])->pluck('day')->all();
+            if (! in_array($data['session_day'], $days, true)) {
+                return response()->json(['error' => 'روز تمرینی در برنامه وجود ندارد.'], 422);
+            }
+            $date = $data['performed_on'];
+            if (($plan->starts_on && $date < $plan->starts_on->format('Y-m-d'))
+                || ($plan->ends_on && $date > $plan->ends_on->format('Y-m-d'))) {
+                return response()->json(['error' => 'تاریخ گزارش خارج از بازه برنامه است.'], 422);
+            }
+            $entry = TrainingProgress::updateOrCreate([
+                'athlete_id' => $request->user()->id,
+                'training_plan_id' => $plan->id,
+                'performed_on' => $date,
+                'session_day' => $data['session_day'],
+            ], ['effort' => $data['effort'] ?? null, 'notes' => $data['notes'] ?? null]);
+            return response()->json(['progress' => $entry]);
+        }, 3);
     }
 
     public function logout(Request $request): JsonResponse

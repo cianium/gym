@@ -16,13 +16,21 @@ final class ApplySecurityHeaders
         /** @var Response $response */
         $response = $next($request);
         $response->headers->set('X-Content-Type-Options', 'nosniff');
-        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        // Do not weaken explicit no-referrer on private downloads and other sensitive responses.
+        if (! $response->headers->has('Referrer-Policy')) {
+            $response->headers->set('Referrer-Policy', $request->is('api/v1/downloads/*', 'api/v1/orders/*', 'api/orders/*', 'api/v1/customer/*', 'api/v1/payments/*')
+                ? 'no-referrer' : 'strict-origin-when-cross-origin');
+        }
         $response->headers->set('X-Frame-Options', 'DENY');
-        $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+        // QR scanning belongs to the public SPA. Allow camera permission only
+        // for same-origin public documents, never for API or dedicated portals.
+        $publicDocument = $request->is('/', 'profile', 'shop', 'explore', 'contact', 'product/*', 'products/*', 'posts/*');
+        $response->headers->set('Permissions-Policy', $publicDocument
+            ? 'camera=(self), microphone=(), geolocation=()'
+            : 'camera=(), microphone=(), geolocation=()');
         // The bootstrap endpoint can contain private admin data depending on the
         // session. Never let shared proxies or browsers retain a personalized copy.
         // Apply the same policy to order, authentication and installer APIs.
-        $path = $request->path();
         if ($request->is('api/v1/bootstrap')
             || $request->is('api/v1/admin/*')
             || $request->is('api/v1/auth/*')
