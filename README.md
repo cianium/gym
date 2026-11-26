@@ -1,318 +1,347 @@
-<!--
-  ARASH FITNESS
-  A premium, single-tenant fitness coaching platform.
--->
-
+<!-- ARASH FITNESS | Product showcase + engineering field guide -->
 <div align="center">
+
+<img src="docs/branding/arash-cover.svg" alt="ARASH FITNESS — The coaching operating system" width="100%">
 
 # ARASH FITNESS
 
-### The operating system for a modern coaching business.
+**A premium digital coaching platform for independent fitness businesses.**
 
-**Train smarter. Coach with clarity. Run your fitness business with confidence.**
+From the first consultation to the next personal best — one connected experience for athletes, coaches, and the business behind them.
 
-<br />
+[![Release](https://img.shields.io/badge/RELEASE-2.3.2-D6AD62?style=for-the-badge&labelColor=171A1B)](docs/release/RELEASE_2_3_2_FA.md)
+[![Status](https://img.shields.io/badge/STATUS-STAGING-D6AD62?style=for-the-badge&labelColor=171A1B)](#release-confidence)
+[![CI](https://img.shields.io/github/actions/workflow/status/cianium/gym/ci.yml?branch=main&style=for-the-badge&label=CI&labelColor=171A1B)](https://github.com/cianium/gym/actions/workflows/ci.yml)
 
-![PHP](https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![Database](https://img.shields.io/badge/MySQL-8%2B%20%7C%20MariaDB%2010.6%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Architecture](https://img.shields.io/badge/Architecture-Single--Tenant-111827?style=for-the-badge)
-![Release](https://img.shields.io/badge/Release-2.3.2-8B5CF6?style=for-the-badge)
-![Status](https://img.shields.io/badge/Environment-Staging-CA8A04?style=for-the-badge)
+[![Laravel](https://img.shields.io/badge/Laravel-13-171A1B?style=flat-square&logo=laravel&logoColor=FF2D20)](laravel_core/composer.json)
+[![PHP](https://img.shields.io/badge/PHP-8.3%2B-171A1B?style=flat-square&logo=php&logoColor=white)](laravel_core/composer.json)
+[![MySQL](https://img.shields.io/badge/MySQL-8%2B-171A1B?style=flat-square&logo=mysql&logoColor=white)](#engineering)
+![License](https://img.shields.io/badge/License-Proprietary-171A1B?style=flat-square)
 
-<br />
-
-[Architecture](#-architecture) · [Capabilities](#-product-capabilities) · [Security](#-security-first-by-design) · [Installation](#-installation) · [Deployment](#-deployment) · [QA Status](#-quality--release-status)
+[**Explore the product**](#the-product) · [**Preview branches**](#experience--preview) · [**Architecture**](#engineering) · [**Quick start**](#quick-start) · [**Release evidence**](#release-confidence)
 
 </div>
 
 ---
 
-> **Built for coaches who want to spend less time managing tools and more time changing lives.**
+## The product
 
-ARASH Fitness is a white-label fitness coaching platform designed to bring the essential operations of a coaching business into one cohesive system: athlete management, training plans, progress tracking, consultations, private communication, digital products, checkout, payments, and administration.
+> **More than a fitness website.** A purpose-built operating system for the coaching business: a public experience that converts interest into action, an athlete workspace that supports progress, and a control room that keeps the entire operation connected.
 
-It is engineered as a **single-tenant deployment**: each business installation runs with its own application configuration, database, domain, and operational credentials. The current release targets PHP shared hosting environments, including cPanel.
+<img src="docs/branding/product-ecosystem.svg" alt="Conceptual feature map: public experience, athlete workspace and coach control room" width="100%">
 
----
+<table>
+<tr>
+<td width="33%" valign="top">
 
-## ✦ Product capabilities
+**01 / EXPERIENCE**
 
-| Area | What it delivers |
-|---|---|
-| **Athlete portal** | Account registration, OTP-based phone verification, personal dashboard, orders, and progress history. |
-| **Training management** | Coach-managed athlete records, training plans, and progress review. |
-| **Consultations** | Coach availability, appointment slots, booking management, cancellation, and booking notifications. |
-| **Private messaging** | Direct coach–athlete conversations with read-state support. |
-| **Store & checkout** | Product catalogue, authenticated checkout, order lifecycle, and payment reconciliation. |
-| **Payment gateways** | Integration paths for Zarinpal and Bank Saman (SEP), including callback handling. |
-| **Digital products** | Private downloadable assets, access entitlements, download controls, and revocation. |
-| **Content & community** | Media management, Explore-style posts, likes, comments, and moderation. |
-| **Administration** | Protected management APIs, product and media operations, athlete and plan management, and system controls. |
-| **Maintenance** | Version status, encrypted backup export, pre-upgrade snapshots, restore workflow, and revision recovery. |
+Public-facing experience
 
-### Designed around real business workflows
+- Product catalogue
+- Coaching consultation requests
+- Explore-style content
+- Likes and moderated comments
+- Account registration and sign-in
 
-- **One verified identity:** sensitive purchase flows require an authenticated athlete account with a verified mobile number.
-- **Safer checkout:** the payer's mobile number must match the verified account number.
-- **Duplicate-request protection:** checkout uses idempotency keys to reduce duplicate orders and payment attempts.
-- **Operational visibility:** consultation bookings and SMS delivery states can be reviewed by the coach.
-- **Private by default:** athlete-specific records, messages, and digital assets are served through protected access paths.
+</td>
+<td width="33%" valign="top">
 
----
+**02 / PERFORMANCE**
 
-## ◈ Architecture
+Athlete workspace
 
-The repository separates the Laravel application from the public web root. This is intentional: application code, environment configuration, and private runtime files should not be exposed as public web content.
+- OTP phone verification
+- Assigned training plans
+- Progress records
+- Consultation booking
+- Private coach messaging
+- Order history and digital access
+
+</td>
+<td width="34%" valign="top">
+
+**03 / OPERATIONS**
+
+Coach & administration
+
+- Athlete and plan management
+- Availability and appointments
+- Product and media management
+- Order reconciliation
+- Content moderation
+- Backup, restore and revisions
+
+</td>
+</tr>
+</table>
+
+### The business loop
+
+A visitor discovers the coaching brand. A verified athlete purchases a plan or books a session. The coach manages delivery, reviews progress and communicates privately. The platform supports the commercial and operational workflows around that relationship.
+
+| Discover | Convert | Deliver | Retain |
+| :--- | :--- | :--- | :--- |
+| Public content & catalogue | Verified registration, checkout & bookings | Training plans, private downloads & coaching | Progress records, messages & repeat engagement |
+
+## Experience & preview
+
+This repository has **two distinct engineering tracks**. The current default branch contains the Laravel release; the new FTA foundation and static demos are separate development work.
+
+| Track | Branch | Purpose |
+| :--- | :--- | :--- |
+| **Current application · 2.3.2** | [`main`](https://github.com/cianium/gym/tree/main) | Laravel application and compiled frontend |
+| **Next-generation foundation** | [`migration/fta-v3-foundation`](https://github.com/cianium/gym/tree/migration/fta-v3-foundation) | NestJS / Next.js migration work |
+| **FTA static preview** | [`demo/fta-pages`](https://github.com/cianium/gym/tree/demo/fta-pages) | Browser-only GitHub Pages publishing tree |
+| **Original UI preview** | [`demo/original-ui-static`](https://github.com/cianium/gym/tree/demo/original-ui-static) | Original interface preview branch |
+| **Client / admin preview** | [`demo/static-client-admin`](https://github.com/cianium/gym/tree/demo/static-client-admin) | Static client and administration preview |
+
+> [!NOTE]
+> Static previews are not production deployments. The FTA preview uses fictional records and has no live authentication, payments or backend. Do not enter real personal information. GitHub Pages is the intended first review environment; a server-side application requires separate hosting. The Pages branch link above opens its source, not a verified live deployment.
+
+The visual identity in this README is an original documentation design. The feature map is illustrative, not a screenshot of the running application.
+
+## Engineering
+
+**One installation. One coaching business. One operational boundary.**
+
+The current application is a single-tenant, white-label deployment. Each business can have its own domain, database, configuration, and service credentials. The application core is intentionally separated from the public document root.
+
+```mermaid
+flowchart TB
+    V["Public visitor"] --> W["Public web experience"]
+    A["Athlete"] --> W
+    C["Coach / administrator"] --> W
+    W --> R["Laravel HTTP / API routes"]
+    R --> G["Authentication / authorization / CSRF / rate limits"]
+    G --> P["Athletes / plans / progress"]
+    G --> S["Bookings / messages / content"]
+    G --> O["Checkout / orders / entitlements"]
+    G --> M["Admin / maintenance"]
+    P --> D[("MySQL / MariaDB")]
+    S --> D
+    O --> D
+    M --> D
+    O --> X["Payment gateways"]
+    O --> F["Private digital storage"]
+    S --> Y["SMS provider"]
+    M --> B["Encrypted backup export"]
+```
+
+*Logical component view of the Laravel release; not a network or infrastructure topology.*
+
+| Layer | Current implementation |
+| :--- | :--- |
+| **Application** | Laravel 13 · PHP 8.3+ as declared in Composer |
+| **Persistence** | MySQL 8+ / MariaDB 10.6+ target |
+| **Delivery** | Compiled browser assets · Laravel HTTP/API routes |
+| **Identity** | Separate administrator and athlete access paths · mobile OTP |
+| **Commerce** | Zarinpal · Bank Saman (SEP) integration paths |
+| **Communications** | MeliPayamak SMS integration · private messages |
+| **Testing** | PHPUnit · PHP/JavaScript syntax · route and checkout checks · MySQL CI |
+| **Hosting** | Split public root · cPanel/shared hosting target for 2.3.2 |
+
+<details>
+<summary><strong>Repository anatomy</strong></summary>
 
 ```text
-ARASH-FITNESS/
-│
-├── laravel_core/              # Laravel 13 application
-│   ├── app/                   # Controllers, models, services, policies
+gym/
+├── laravel_core/
+│   ├── app/                 # Controllers, models, services, policies
 │   ├── bootstrap/
 │   ├── config/
-│   ├── database/              # Migrations, factories and seeders
-│   ├── installer/             # Controlled installation flow
-│   ├── resources/              # Server-rendered application shell
-│   ├── routes/                # Web, API and console routes
-│   ├── tests/                 # Smoke, regression and feature tests
+│   ├── database/            # Migrations and seeders
+│   ├── installer/           # Installation flow
+│   ├── resources/           # Application shell
+│   ├── routes/              # Web, API, console
+│   ├── tests/               # Regression and feature tests
 │   ├── composer.json
 │   └── .env.example
-│
-├── public_html/               # Web-server document root
-│   ├── assets/                # Compiled frontend assets
-│   ├── media/                 # Public media location
+├── public_html/
+│   ├── assets/              # Compiled browser assets
+│   ├── media/
 │   ├── index.php
 │   ├── spa-shell.html
 │   └── .htaccess
-│
 ├── docs/
-│   ├── deployment/            # Deployment guidance
-│   ├── history/               # Historical project records
-│   └── release/               # Release notes, audits and QA reports
-│
+│   ├── branding/            # Repository visual identity
+│   ├── deployment/
+│   ├── history/
+│   └── release/
+├── .github/workflows/
 └── README.md
 ```
 
-### Technology
+</details>
 
-| Layer | Technology |
-|---|---|
-| Backend | PHP 8.3+ |
-| Application framework | Laravel 13 |
-| Database | MySQL 8+ / MariaDB 10.6+ |
-| API | Laravel HTTP routes and middleware |
-| Frontend delivery | Compiled browser assets served from `public_html/` |
-| Authentication | Session-based admin and athlete flows; OTP phone verification |
-| Payments | Zarinpal and SEP integration paths |
-| SMS | MeliPayamak integration |
-| Hosting target | cPanel / PHP shared hosting |
+> [!IMPORTANT]
+> The original maintainable React/TypeScript frontend source is not present in the current Laravel release tree. Its compiled assets are included. Do not confuse the newer migration foundation with an already completed replacement of `main`.
 
-**Frontend source note:** this repository currently contains compiled frontend assets, not the original React/TypeScript source project. The built interface is deployable as provided, but substantial frontend redevelopment should wait until the maintainable source is recovered or reconstructed.
+## Trust & transaction integrity
 
----
+Security is a release requirement, not a marketing claim. The existing code and audit describe these controls:
 
-## 🛡 Security-first by design
+| Boundary | Design control |
+| :--- | :--- |
+| Identity | Session-protected athlete/admin paths; OTP-gated registration |
+| Requests | CSRF middleware and endpoint rate limiting |
+| Checkout | Authenticated, phone-verified athlete; payer phone matching; idempotency keys |
+| Payments | Dedicated callback handling, transaction-state checks and reconciliation |
+| Digital delivery | Ownership and entitlement checks, controlled tokens, revocation |
+| Backup | Encrypted export; fail closed if no valid encryption key is configured |
+| Deployment | Public-root separation; environment-specific secrets |
 
-Security is treated as part of the product architecture—not as a final checklist.
+<details>
+<summary><strong>Conceptual checkout sequence</strong></summary>
 
-- **Authentication and authorization:** separate athlete and administrator access paths.
-- **CSRF protection:** state-changing protected operations use CSRF middleware.
-- **Rate limiting:** sensitive endpoints such as login, OTP, checkout, and public interactions are throttled.
-- **Verified checkout:** account authentication and verified phone ownership are required for purchases.
-- **Idempotent transactions:** stable request keys help prevent duplicate checkout operations.
-- **Payment callback handling:** gateway callbacks are routed through dedicated handlers and transaction state checks.
-- **Private downloads:** digital assets use controlled access tokens and entitlement checks.
-- **Encrypted backups:** backup export is designed to fail closed when a valid encryption key is unavailable; plaintext export is not an acceptable fallback.
-- **Secret isolation:** credentials belong in server-side environment configuration, never in source control.
+```mermaid
+sequenceDiagram
+    actor A as Athlete
+    participant API as Checkout API
+    participant DB as Order store
+    participant G as Payment gateway
+    A->>API: Authenticated checkout + idempotency key
+    API->>API: Validate verified phone and request
+    API->>DB: Create or recover order
+    API->>G: Initiate payment
+    G-->>API: Callback
+    API->>G: Verify transaction
+    API->>DB: Reconcile authoritative payment state
+    API-->>A: Order status / eligible access
+```
 
-### Security configuration essentials
+The diagram is a simplified successful-path illustration; pending, failed and reconciliation states are handled separately.
 
-Keep these values private and configure them only in the deployment environment:
+</details>
 
-- `APP_KEY`
-- Database credentials
-- Zarinpal merchant credentials
-- SEP terminal credentials
-- MeliPayamak tokens and template IDs
-- `BACKUP_ENCRYPTION_KEY`
+Keep application keys, database credentials, payment credentials, SMS credentials and `BACKUP_ENCRYPTION_KEY` out of source control. Preserve the backup key independently: losing it can make encrypted snapshots unrecoverable.
 
-**Backup key warning:** encrypted backups depend on the configured backup encryption key. Store it in a secure, independent location and preserve it for as long as those backups may need to be restored. Losing the key can make encrypted snapshots unrecoverable.
+## Quick start
 
----
+The following applies to the Laravel 2.3.2 branch, not the migration branch.
 
-## ⚡ Installation
-
-### Requirements
-
-- PHP **8.3 or newer**
-- Composer 2
-- MySQL **8+** or MariaDB **10.6+**
-- Required PHP extensions: Ctype, cURL, Fileinfo, Filter, GD, Hash, JSON, Mbstring, OpenSSL, PDO, Session, Tokenizer, and XML
-- A web server configured to expose **only** `public_html/` as its document root
-
-### 1. Get the code
+**Prerequisites:** Composer 2, the PHP version/extensions required by [composer.json](laravel_core/composer.json), MySQL or MariaDB, and an isolated local/staging database. Configure the web server to expose only `public_html/`.
 
 ```bash
 git clone https://github.com/cianium/gym.git
-cd gym
-```
+cd gym/laravel_core
 
-### 2. Install backend dependencies
-
-```bash
-cd laravel_core
-composer install --no-dev --optimize-autoloader
-```
-
-For a development environment, omit `--no-dev` so the test and development dependencies are installed.
-
-### 3. Configure the environment
-
-```bash
 cp .env.example .env
-```
-
-Set the application URL, database connection, administrator bootstrap credentials, payment/SMS credentials, and backup encryption key in `.env`.
-
-Generate the Laravel application key:
-
-```bash
+composer install
 php artisan key:generate
+
+# Configure the dedicated database in .env first.
+php artisan migrate
 ```
 
-### 4. Prepare the database
+Configure writable Laravel storage/cache directories and the application URL, then serve the application through the repository's public entry point using your web server.
 
-Create a dedicated database and database user, then configure the credentials in `.env`.
+<details>
+<summary><strong>Development checks</strong></summary>
 
-Review the release and deployment checklist before running migrations. For a controlled deployment, take a database and file snapshot first, then run:
+Run from `laravel_core/` after installing development dependencies:
 
 ```bash
-php artisan migrate --force
+composer test
+php tests/static_runtime_regressions.php
+php tests/route_security_smoke.php
+node tests/client_checkout_gate.mjs
 ```
 
-### 5. Configure the web root
+The [CI workflow](.github/workflows/ci.yml) also defines a MySQL PHPUnit suite. It must run on a dedicated, disposable testing database; never point it at customer data.
 
-Configure the domain's document root to point to:
+</details>
 
-```text
-/path/to/project/public_html
-```
+### Deployment gates
 
-Keep `laravel_core/`, `.env`, Composer files, logs, and other private application data outside the publicly served directory.
+- [ ] Expose only `public_html/`; keep `laravel_core/` and secrets private.
+- [ ] Configure dedicated database, HTTPS, secure cookies, `APP_ENV=production` and `APP_DEBUG=false` for an eventual production installation.
+- [ ] Configure environment-specific payment, SMS and backup credentials.
+- [ ] Snapshot before database upgrades and verify scheduled tasks and permissions.
+- [ ] Complete provider, restore, device and end-to-end staging verification before release.
 
-> **Important:** this repository is structured for a split application/public-root deployment. Do not point the domain at the repository root.
+> [!WARNING]
+> **2.3.2 is a staging candidate, not production-approved.** Do not run destructive test suites against real data or connect real payment traffic until the release gates are cleared.
 
----
+See the [deployment guide](docs/deployment/README.md) and [staging procedure](docs/release/STAGING_TEST_AND_DEPLOY_FA.md).
 
-## 🚀 Deployment
-
-The intended deployment model is an independent installation for each coaching business.
-
-Each installation should have:
-
-1. Its own domain or subdomain.
-2. Its own database and database user.
-3. Its own environment configuration and application key.
-4. Its own payment and SMS credentials.
-5. HTTPS enabled.
-6. A tested backup and restore procedure.
-
-### cPanel deployment checklist
-
-- [ ] Upload the application while preserving the separation between `laravel_core/` and `public_html/`.
-- [ ] Set the domain document root to `public_html/`.
-- [ ] Select PHP 8.3+ and enable the required extensions.
-- [ ] Create a dedicated MySQL database and user.
-- [ ] Configure the production `.env` outside the public web root.
-- [ ] Set `APP_ENV=production`, `APP_DEBUG=false`, and the correct `APP_URL`.
-- [ ] Configure HTTPS and secure session cookies.
-- [ ] Generate or securely provision the application key.
-- [ ] Configure payment and MeliPayamak credentials using real provider values.
-- [ ] Configure the backup encryption key and store a protected copy separately.
-- [ ] Review and run database migrations after taking a snapshot.
-- [ ] Configure the scheduler/cron jobs described in the deployment guide.
-- [ ] Test athlete registration, OTP, checkout, payment callbacks, consultations, SMS, backup, and restore in an isolated staging environment.
-- [ ] Verify mobile and desktop behavior before opening the installation to real customers.
-
-The detailed deployment guide and release checklists in `docs/` take precedence over this overview.
-
----
-
-## 🧪 Quality & release status
+## Release confidence
 
 <div align="center">
 
-### Current release: 2.3.2 · Staging candidate
+**ENGINEERING EVIDENCE / RELEASE 2.3.2**
 
-**Not approved for production use yet.**
+<table>
+<tr>
+<td align="center" width="25%"><h2>30</h2>PHPUnit tests</td>
+<td align="center" width="25%"><h2>146</h2>Assertions</td>
+<td align="center" width="25%"><h2>41</h2>Static regressions</td>
+<td align="center" width="25%"><h2>20</h2>JS asset checks</td>
+</tr>
+</table>
+
+<sub>Historically recorded results from the November 22 repository audit; not newly executed by this README revision.</sub>
 
 </div>
 
-The repository includes automated checks, regression scripts, feature tests, and a MySQL staging test suite. The latest repository audit also records security and MySQL-compatibility fixes.
+The [repository audit](docs/release/REPOSITORY_AUDIT_2026-11-22_FA.md) records successful MySQL 8.0.46 CI checks, PHP and JavaScript syntax validation, route smoke tests and client checkout regression checks. It also documents the backup encryption and MySQL migration corrections.
 
-Previously recorded checks for this release include:
+| Verification | Evidence / status |
+| :--- | :--- |
+| MySQL feature suite | 30 tests / 146 assertions recorded |
+| Static regression suite | 41 checks recorded |
+| Route security smoke | 4/4 recorded |
+| Client checkout | 4/4 recorded |
+| Real payment callbacks & reconciliation | Staging verification required |
+| Real SMS delivery | Provider verification required |
+| Full encrypted backup / restore | End-to-end verification required |
+| Mobile and desktop browser workflows | End-to-end verification required |
+| Hosting and scheduler | Target-environment verification required |
 
-| Check | Recorded result |
-|---|---:|
-| PHP syntax checks | 105 / 105 passed |
-| JavaScript syntax checks | 20 / 20 passed |
-| Database-independent regression checks | 37 / 37 passed |
-| Limited Laravel HTTP smoke checks | 4 / 4 passed |
-| Limited client-side checkout checks | 4 / 4 passed |
+[Read the audit](docs/release/REPOSITORY_AUDIT_2026-11-22_FA.md) · [View CI](https://github.com/cianium/gym/actions/workflows/ci.yml) · [Review release gates](docs/release/RELEASE_CHECKLIST_FA.md)
 
-These are **historical recorded results**, not a claim that every test was rerun against the current commit.
+## Documentation
 
-### Verification still required
+| Reference | What it covers |
+| :--- | :--- |
+| [Repository audit · FA](docs/release/REPOSITORY_AUDIT_2026-11-22_FA.md) | Findings, corrections and test evidence |
+| [Final QA report · FA](docs/release/FINAL_QA_REPORT_FA.md) | Release readiness and limitations |
+| [Release 2.3.2 · FA](docs/release/RELEASE_2_3_2_FA.md) | Release scope |
+| [Implementation status · FA](docs/release/IMPLEMENTATION_STATUS_FA.md) | Capability status |
+| [Security & UI changes · FA](docs/release/CHANGES_SECURITY_UI_FA.md) | Security and interface changes |
+| [Release checklist · FA](docs/release/RELEASE_CHECKLIST_FA.md) | Release gates |
+| [Staging & deployment · FA](docs/release/STAGING_TEST_AND_DEPLOY_FA.md) | Validation and deployment procedure |
+| [Deployment index](docs/deployment/README.md) | Hosting documentation |
 
-The current release must remain in isolated staging until the following have been completed successfully:
+<details>
+<summary><strong>معرفی فارسی پروژه | Persian overview</strong></summary>
 
-- MySQL 8 / MariaDB migrations and feature tests
-- Real database concurrency tests for bookings and checkout
-- Payment gateway callback and reconciliation tests using provider-approved staging credentials
-- Real MeliPayamak OTP and booking SMS delivery verification
-- Encrypted backup export, decryption, and full restore test
-- Browser-based end-to-end testing on mobile and desktop
-- cPanel deployment verification, including scheduler and file permissions
+**آرش فیتنس** یک پلتفرم یکپارچه برای کسب‌وکارهای مربیگری ورزشی است که تجربه عمومی مشتری، پنل ورزشکار و ابزارهای مدیریت مربی را به یکدیگر متصل می‌کند.
 
-See the latest [Repository Audit](docs/release/REPOSITORY_AUDIT_2026-11-22_FA.md) and [Final QA Report](docs/release/FINAL_QA_REPORT_FA.md) for the evidence, limitations, and release gates.
+مدیریت ورزشکاران، برنامه تمرینی، ثبت پیشرفت، رزرو مشاوره، پیام خصوصی، فروش محصولات، پرداخت، دسترسی به فایل‌های دیجیتال، مدیریت محتوا و نگهداری سیستم از قابلیت‌های نسخه فعلی هستند.
 
----
+شاخه اصلی شامل نسخه Laravel 2.3.2 است و هنوز تأیید انتشار عملیاتی ندارد. بازطراحی FTA v3 و نسخه‌های نمایشی مستقل در شاخه‌های جداگانه توسعه می‌یابند. جزئیات فنی و وضعیت تست‌ها در مستندات فارسی بالا قابل مشاهده است.
 
-## 📚 Documentation
+</details>
 
-| Document | Purpose |
-|---|---|
-| [Repository Audit — 2026-11-22](docs/release/REPOSITORY_AUDIT_2026-11-22_FA.md) | Latest repository review, security findings, fixes, and remaining work |
-| [Final QA Report](docs/release/FINAL_QA_REPORT_FA.md) | Quality status and production release decision |
-| [Release 2.3.2](docs/release/RELEASE_2_3_2_FA.md) | Version scope, implementation notes, and recorded test results |
-| [Release Checklist](docs/release/RELEASE_CHECKLIST_FA.md) | Pre-release verification checklist |
-| [Staging Test & Deployment](docs/release/STAGING_TEST_AND_DEPLOY_FA.md) | Staging setup and operational test procedure |
-| [Security & UI Changes](docs/release/CHANGES_SECURITY_UI_FA.md) | Security and interface change log |
-| [Implementation Status](docs/release/IMPLEMENTATION_STATUS_FA.md) | Feature and implementation status |
-| [Deployment Documentation](docs/deployment/README.md) | Deployment documentation index |
+## Ownership & usage
 
----
+The Laravel project metadata declares a **proprietary** license. Public visibility of this repository does not itself grant permission to redistribute, resell or reuse its code or assets. Obtain written permission from the rights holder for reuse or distribution.
 
-## 🔐 License & usage
-
-This is **proprietary software**. The source is maintained in a private repository and is not offered under an open-source license.
-
-No permission is granted to redistribute, resell, publish, or reuse the source code or compiled assets without written authorization from the rights holder.
+For project discussion, use the [repository issues](https://github.com/cianium/gym/issues) or contact the [maintainer](https://github.com/cianium). Do not publish secrets or sensitive security findings in public issues.
 
 ---
 
 <div align="center">
 
-### ARASH FITNESS
+**ARASH FITNESS**
 
-**A stronger coaching business starts with a better system.**
-
-<br />
+### Build the athlete. Empower the coach. Elevate the business.
 
 Maintained by **[cianium](https://github.com/cianium)**
 
-<sub>Laravel-powered · Single-tenant · Built for independent fitness businesses</sub>
+<sub>Independent coaching · Product engineering · Built for the long run</sub>
+
+[Back to top](#arash-fitness)
 
 </div>
