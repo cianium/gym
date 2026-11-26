@@ -13,7 +13,7 @@ class BootstrapResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-        $isAdmin = $request->user() !== null && $request->user()->role === 'admin';
+        $isAdmin = $request->user() !== null && $request->user()->role === 'admin' && ! $request->user()->must_change_password;
 
         $coach = $this->resource['coach'] ?? null;
         $sections = collect($this->resource['sectionConfigs'] ?? []);
