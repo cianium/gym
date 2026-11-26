@@ -20,7 +20,7 @@ class AdminRotationAndPermissionsTest extends TestCase
     {
         $this->withoutMiddleware(VerifyAdminCsrfToken::class);
         $admin = User::create([
-            'name' => 'QA admin', 'email' => 'qa-admin@example.test',
+            'name' => 'QA admin', 'email' => 'qa-admin@example.test', 'phone' => '09120000991',
             'role' => 'admin', 'password' => 'OldTestPassword123!', 'must_change_password' => true,
         ]);
         $this->actingAs($admin)->getJson('/api/v1/admin/products')
