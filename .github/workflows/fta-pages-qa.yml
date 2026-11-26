@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/checkout@v5
         with:
-          ref: 1d4391d60899edebdd09eb8fbd54a57753fe68dc
+          ref: 1c58d8dc66b55a424f6a78f4df9f5fdebef8e6ef
           path: pages-preview/gym
           persist-credentials: false
       - uses: actions/setup-node@v4
