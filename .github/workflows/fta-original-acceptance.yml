@@ -1,0 +1,47 @@
+name: FTA original UI acceptance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'fta-qa/**'
+      - '.github/workflows/fta-original-acceptance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v5
+        with:
+          ref: f6d1fa408486fe291bdd090faa27f03dd2b25919
+          path: preview/gym
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA dependencies
+        working-directory: fta-qa
+        run: |
+          npm install --no-save --no-package-lock @playwright/test
+          npx playwright install --with-deps chromium
+      - name: Run original UI checks
+        working-directory: fta-qa
+        run: |
+          find ../preview/gym -name '*.js' -print0 | xargs -0 -n1 node --check
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory ../preview > /tmp/fta-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/gym/ >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:4173/gym/ >/dev/null
+          npx playwright test original.spec.js --reporter=line --workers=2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fta-original-ui-acceptance
+          path: fta-qa/test-results/
+          if-no-files-found: ignore
