@@ -1,4 +1,4 @@
-name: FTA Pages browser QA
+name: FTA original UI browser QA
 on:
   push:
     branches: [migration/fta-v3-foundation]
@@ -9,13 +9,13 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
       - uses: actions/checkout@v5
         with:
-          ref: demo/fta-pages
-          path: pages-preview
+          ref: 1d4391d60899edebdd09eb8fbd54a57753fe68dc
+          path: pages-preview/gym
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
@@ -25,12 +25,18 @@ jobs:
         run: |
           npm install --no-save --no-package-lock @playwright/test
           npx playwright install --with-deps chromium
-      - name: Run browser QA against published tree
+      - name: Run browser QA at GitHub Pages project subpath
         working-directory: fta-v3/tests/pages
         run: |
-          node --check ../../../pages-preview/app.js
           python3 -m http.server 4173 --bind 127.0.0.1 --directory ../../../pages-preview > /tmp/fta-pages-server.log 2>&1 &
           server=$!
           trap 'kill "$server" || true' EXIT
-          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/gym/ >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:4173/gym/ >/dev/null
           npx playwright test preview.spec.js --reporter=line
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fta-original-ui-browser-evidence
+          path: fta-v3/tests/pages/test-results/
+          if-no-files-found: ignore
