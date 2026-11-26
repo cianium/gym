@@ -16,7 +16,11 @@ final class ApplySecurityHeaders
         /** @var Response $response */
         $response = $next($request);
         $response->headers->set('X-Content-Type-Options', 'nosniff');
-        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        // Do not weaken explicit no-referrer on private downloads and other sensitive responses.
+        if (! $response->headers->has('Referrer-Policy')) {
+            $response->headers->set('Referrer-Policy', $request->is('api/v1/downloads/*', 'api/v1/orders/*', 'api/orders/*', 'api/v1/customer/*', 'api/v1/payments/*')
+                ? 'no-referrer' : 'strict-origin-when-cross-origin');
+        }
         $response->headers->set('X-Frame-Options', 'DENY');
         // QR scanning belongs to the public SPA. Allow camera permission only
         // for same-origin public documents, never for API or dedicated portals.
