@@ -1,45 +1,43 @@
-import { test, expect } from '@playwright/test';
-
-for (const viewport of [{width:1440,height:900},{width:390,height:844},{width:320,height:700}]) {
- test('FTA Pages '+viewport.width+'px',async({page})=>{
+import {test,expect} from '@playwright/test';
+const base='http://127.0.0.1:4173/gym/';
+for(const viewport of [{width:320,height:700},{width:390,height:844},{width:768,height:1024},{width:1440,height:900}]){
+ test('original FTA RC2 '+viewport.width+'px',async({page},info)=>{
+  test.setTimeout(120000);
   await page.setViewportSize(viewport);
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4173/');
-  await page.getByRole('button',{name:/پنل مدیریت باشگاه/}).click();
-  await expect(page).toHaveURL(/#admin\/dashboard$/);
-  for(const id of ['members','coaches','plans','training','appointments','finance','store','content','settings','dashboard']){
-   await page.locator('[data-page="'+id+'"]').click();
-   await expect(page.locator('h1')).toBeVisible();
-   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBeTruthy();
+  const errors=[],failed=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)failed.push(r.status()+' '+r.url());});
+  const root=page.locator('#root');
+  const screenshot=async(label)=>{await page.screenshot({path:info.outputPath(label+'.png'),animations:'disabled'});};
+  const overflow=async()=>expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2)).toBeTruthy();
+  for(const [hash,marker,label] of [
+   ['',/مربی نمونه FTA/,'01-home'],
+   ['#/shop',/پروتکل ۱۲ هفته/,'02-shop'],
+   ['#/product/prod-physical-straps',/ست بند لیفت چرم طبیعی/,'03-product'],
+   ['#/explore',/اصلاح زاویه لگن/,'04-explore'],
+   ['#/account',/مشتری نمونه FTA/,'05-account'],
+   ['#/cart',/سبد خرید/,'06-cart'],
+   ['#/admin',/مدیریت|پنل|Admin/,'07-admin']
+  ]){
+   await page.goto(base+'index.html'+hash);
+   await expect(root).not.toBeEmpty();
+   await expect(root.getByText(marker).first()).toBeVisible({timeout:15000});
+   await overflow();await screenshot(label);
   }
-  await page.locator('[data-page="members"]').click();
-  await page.locator('#showAdd').click();
-  await page.locator('#mName').fill('QA sample');
-  await page.locator('#mPhone').fill('DEMO-QA');
-  await page.locator('#addForm button').click();
-  await page.locator('#memberSearch').fill('QA sample');
-  await expect(page.locator('tbody tr:visible')).toHaveCount(1);
-  await page.reload();
-  await expect(page.locator('tbody')).toContainText('QA sample');
-  await page.locator('#exit').click();
-  await page.getByRole('button',{name:/پنل ورزشکار/}).click();
-  for(const id of ['profile','program','progress','appointments','messages','membership','dashboard']){
-   await page.locator('[data-page="'+id+'"]').click();
-   await expect(page.locator('h1')).toBeVisible();
-   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBeTruthy();
+  for(const [file,selector,label] of [
+   ['athlete.html','#dashboard','08-athlete'],
+   ['athlete-register.html','#request','09-register'],
+   ['coach-athletes.html','#content','10-coach'],
+   ['coach-schedule.html','#dashboard','11-schedule']
+  ]){
+   await page.goto(base+file);await expect(page.locator(selector)).toBeVisible({timeout:15000});await overflow();await screenshot(label);
   }
-  await page.locator('[data-page="profile"]').click();
-  await page.locator('#athName').fill('<img src=x onerror=alert(1)>');
-  await page.locator('#profileForm button').click();
-  await page.locator('[data-page="membership"]').click();
-  await expect(page.locator('.member h3')).toHaveText('<img src=x onerror=alert(1)>');
-  await expect(page.locator('.member img')).toHaveCount(0);
-  await page.goto('http://127.0.0.1:4173/#admin/finance');
-  await expect(page.locator('h1')).toHaveText('مالی و گزارش‌ها');
-  await expect(page.locator('.bars')).toBeVisible();
-  page.once('dialog',d=>d.accept());
-  await page.locator('#resetDemo').click();
-  await expect(page.locator('[data-role="admin"]')).toBeVisible();
-  expect(errors).toEqual([]);
+  await page.goto(base+'athlete.html');
+  const message='QA synthetic sample';
+  await page.locator('#messageBody').fill(message);
+  await page.locator('#messageForm button').click();
+  await expect(page.locator('#privateMessages')).toContainText(message);
+  await page.reload();await expect(page.locator('#privateMessages')).toContainText(message);
+  expect(errors).toEqual([]);expect(failed).toEqual([]);
  });
 }
