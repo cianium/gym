@@ -21,6 +21,14 @@ class EnsureAdminAuthenticated
             ], 401);
         }
 
+        // A forced password rotation is a server-side gate, not a UI hint.
+        if ($user->must_change_password && ! $request->is('api/v1/auth/admin/password', 'api/v1/auth/admin/logout')) {
+            return response()->json([
+                'error' => 'ابتدا رمز عبور مدیریت را تغییر دهید.',
+                'code' => 'PASSWORD_CHANGE_REQUIRED',
+            ], 403);
+        }
+
         return $next($request);
     }
 }
