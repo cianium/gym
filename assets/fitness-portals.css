@@ -1,0 +1,24 @@
+
+/* Fitness portal accessibility and responsive refinement */
+:root{color-scheme:dark;--surface:#1d1d1d;--line:#494238;--accent:#c8a66a}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{line-height:1.7;min-height:100vh;background:radial-gradient(circle at 90% 0%,#30281c 0%,transparent 34%),#101010}
+main{width:min(100% - 24px,1100px);margin:24px auto;padding:clamp(12px,3vw,28px)}
+h1{font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.4}h2{line-height:1.5}
+section,article,fieldset{box-shadow:0 10px 32px #0002}
+button{min-height:44px;transition:filter .15s ease,transform .15s ease}
+button:hover:not(:disabled){filter:brightness(1.1)}button:active:not(:disabled){transform:translateY(1px)}
+:focus-visible{outline:3px solid #d6b77d!important;outline-offset:3px}
+input,textarea,select{min-height:44px;max-width:100%;font-size:16px}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+[hidden]{display:none!important}
+#message:not(:empty){padding:12px 14px;border-radius:10px;background:#30281c;border:1px solid #c8a66a;margin:16px 0}
+#message[data-kind="error"]{background:#451f2a;border-color:#fda4af;color:#ffe4e6}
+@media(max-width:680px){main{margin:10px auto;padding:12px}section{padding:16px!important}button{max-width:100%}fieldset{min-width:0}article{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+body{font-family:Vazirmatn,Tahoma,Arial,sans-serif}a{color:#d6b77d} .fta-review-nav{display:flex;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #39352e;background:#171717;font-size:13px}.fta-review-nav a{padding:6px 10px;text-decoration:none;border:1px solid #3d382f;border-radius:10px}.fta-demo-note{padding:10px 16px;background:#262117;color:#e3ce9d;font-size:12px;line-height:1.8}main{max-width:1100px}main>section,main>div>section{border:1px solid #39352e;border-radius:18px}input,select,textarea{color:#f5f2ec}button{max-width:100%}nav{overflow-wrap:anywhere}
+
+/* RC2: safe viewport and compact responsive forms. */
+body{overflow-wrap:anywhere}main,section,fieldset,article,.item,.exercise{min-width:0}h1,h2,h3{overflow-wrap:anywhere}input,select,textarea{width:100%}textarea{resize:vertical}button:disabled{cursor:not-allowed}#logout{float:none;margin-inline-start:auto;display:block}.fta-review-nav a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.fta-review-nav a:focus-visible{outline:2px solid #d6b77d;outline-offset:2px}@media(max-width:480px){body{padding-inline:0!important}.fta-review-nav{gap:6px;padding:8px 12px}.fta-review-nav a{font-size:12px;padding:6px 9px}main{width:calc(100% - 24px);margin:12px auto!important;padding:12px!important}.item,.exercise,.row{grid-template-columns:minmax(0,1fr)!important}.appointment-actions button{flex:1 1 120px}fieldset{padding:12px}}
