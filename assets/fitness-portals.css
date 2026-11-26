@@ -22,3 +22,6 @@ body{font-family:Vazirmatn,Tahoma,Arial,sans-serif}a{color:#d6b77d} .fta-review-
 
 /* RC2: safe viewport and compact responsive forms. */
 body{overflow-wrap:anywhere}main,section,fieldset,article,.item,.exercise{min-width:0}h1,h2,h3{overflow-wrap:anywhere}input,select,textarea{width:100%}textarea{resize:vertical}button:disabled{cursor:not-allowed}#logout{float:none;margin-inline-start:auto;display:block}.fta-review-nav a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}.fta-review-nav a:focus-visible{outline:2px solid #d6b77d;outline-offset:2px}@media(max-width:480px){body{padding-inline:0!important}.fta-review-nav{gap:6px;padding:8px 12px}.fta-review-nav a{font-size:12px;padding:6px 9px}main{width:calc(100% - 24px);margin:12px auto!important;padding:12px!important}.item,.exercise,.row{grid-template-columns:minmax(0,1fr)!important}.appointment-actions button{flex:1 1 120px}fieldset{padding:12px}}
+
+/* RC3: accessible portal controls and long content */
+:focus-visible{scroll-margin-block:16px}.fta-review-nav a[aria-current="page"]{border-color:var(--accent);background:#30281c}button:disabled{opacity:.55}#messages,#privateMessages{overflow-wrap:anywhere}#demoIdentity{overflow-wrap:anywhere;text-align:start}form button:not([type=button]){margin-block-start:10px}body{padding-bottom:env(safe-area-inset-bottom)}

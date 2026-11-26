@@ -1,4 +1,4 @@
-# FTA — Original Product Restoration RC2
+# FTA — Original Product Restoration RC3
 
 **Status: static review candidate; NOT production software or a Next.js/NestJS migration.**
 
@@ -19,3 +19,6 @@ Extract all files into the same directory and serve over HTTP. Open `review.html
 
 ## GitHub Pages
 Publish only this static package at the root of a dedicated publishing branch (including .nojekyll). Keep the main repository private. GitHub Pages needs an eligible plan for a private repository and must be enabled under Settings > Pages. No VPS deployment until visual approval. The exact candidate is not live until the publishing tree is pushed, Pages is configured, and its actual URL is verified.
+
+## RC3 corrections
+Synthetic login now selects an existing account by its demo email or numeric ID; standalone registration no longer requests passwords or a real number. Validate training dates, duplicate days, sets, progress dates, record capacity, malformed requests, and account reassignment; guard portal submissions and report partial data errors. Cart quantity is bounded by sample stock. Browser execution and live Pages access remain unverified.
