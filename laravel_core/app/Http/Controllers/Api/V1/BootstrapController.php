@@ -39,7 +39,7 @@ class BootstrapController
         if ($isInstalled) {
             try {
                 $user = $request->user();
-                $isAdmin = $user !== null && $user->role === 'admin';
+                $isAdmin = $user !== null && $user->role === 'admin' && ! $user->must_change_password;
 
                 $brand = BrandSetting::first();
                 $coach = CoachProfile::first();
