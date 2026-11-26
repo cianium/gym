@@ -1,24 +1,11 @@
 import 'reflect-metadata';
-import { Controller, Get, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-@Controller()
-class DemoController {
-  @Get('health')
-  health() { return { status: 'ok', product: 'FTA', mode: 'demo' }; }
-
-  @Get('demo/overview')
-  overview() {
-    return { mode: 'demo', athletes: 128, coaches: 6, activePlans: 94, appointments: 12 };
-  }
-}
-@Module({ controllers: [DemoController] })
-class AppModule {}
-
+import { DemoModule } from './demo.module';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  if (process.env.FTA_MODE !== 'demo') throw new Error('Only isolated demo mode is implemented');
+  const app = await NestFactory.create(DemoModule, {cors:false});
   app.setGlobalPrefix('api/v1');
   app.enableShutdownHooks();
-  await app.listen(4000, '0.0.0.0');
+  await app.listen(4000,'0.0.0.0');
 }
-bootstrap().catch((error: unknown) => { console.error(error); process.exitCode = 1; });
+bootstrap().catch((error: unknown)=>{console.error(error instanceof Error ? error.message : 'Startup failed');process.exit(1);});
