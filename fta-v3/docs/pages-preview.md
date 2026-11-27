@@ -1,0 +1,3 @@
+# GitHub Pages preview
+
+The dedicated demo/fta-pages publishing tree contains only index.html, style.css, app.js, .nojekyll and README.md. It is a separate vanilla browser preview derived from the previous static demo, not a Next.js static export or evidence of backend parity. No real data, auth or payment. Set repository Settings > Pages > Deploy from a branch > demo/fta-pages > /(root) > Save. GitHub Pages on a private repo requires an eligible plan; do not make the repository public. The expected default URL is https://cianium.github.io/gym/; verify the actual deployment and version before sharing. Connector cannot configure repository Pages settings. VPS deployment remains separate and must wait for approval and full migration tests.

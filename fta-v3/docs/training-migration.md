@@ -1,0 +1,11 @@
+# FTA 3 — training vertical slice (staging only)
+
+Reference: Laravel TrainingPlanAdminController and AthletePortalController at audit/fta-legacy-training-integrity, with tested ownership/row-lock fix. Browser reference remains demo/fta-pages RC4. Do not replace it with the scaffold.
+
+The new NestJS training module uses PostgreSQL, Prisma migrations, persisted accounts, scrypt passwords, opaque hashed expiring bearer sessions, explicit logout/revocation, forced password rotation, database-backed login throttling, role checks, validated plans and progress, and plan row locks shared between writes. Training history prevents athlete reassignment. Public response maps to legacy training fields; UUIDs and bearer auth are new contracts, not drop-in replacement. Phone verification is always false; no OTP, public registration, checkout, orders, messaging, reservations or CMS migrated here. Admin provisioning is one-time CLI only. Do not use real credentials or real data.
+
+Run only on a separate disposable database named fta_training_staging, FTA_MODE=training-staging, FTA_STAGING_ACK=isolated-test-only. After npm install, db:generate, build, db:migrate, use FTA_BOOTSTRAP_EMAIL and FTA_BOOTSTRAP_PASSWORD for node dist/training/provision.js once; unset them immediately. Run node dist/main.js, port 4000. Bind only on an isolated/private test network, TLS required before external access. CI supplies synthetic credentials. No production mode implemented. Existing demo mode is separate; never reuse legacy or live database.
+
+Acceptance gates: PostgreSQL integration CI, dependency lock/audit, browser adapter with secure server-side session storage, import/reconciliation for legacy users, all remaining API domains, full source UI migration, payment/SMS/backup staging, then approval. No deploy or merge.
+
+Known design decisions: single admin scope follows legacy; no multi-tenant isolation yet. Tehran business calendar for progress. Fixed-window counters require periodic expiry cleanup and gateway rate limits before production; direct peer IP only (no untrusted forwarded headers). Password reauthentication revokes all sessions. API bearer token must not be persisted in browser localStorage. Use a BFF before browser integration.

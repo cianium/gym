@@ -1,0 +1,41 @@
+name: FTA Demo CI
+on:
+  push:
+    branches: [migration/fta-v3-foundation]
+    paths: ['fta-v3/**', '.github/workflows/fta-demo-ci.yml']
+  pull_request:
+    branches: [main]
+    paths: ['fta-v3/**', '.github/workflows/fta-demo-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: fta-v3
+    steps:
+      - uses: actions/checkout@v5
+      - name: Start isolated stack
+        run: |
+          umask 077
+          printf 'FTA_DEMO_DB_PASSWORD=%s\n' "$(openssl rand -hex 24)" > .env
+          docker compose config --quiet
+          docker compose up --build -d --wait --wait-timeout 180
+      - name: API and data smoke
+        run: docker compose exec -T api node --input-type=module < tests/smoke.mjs
+      - name: Web smoke
+        run: |
+          for path in / /admin /athlete; do
+            curl -fsS "http://127.0.0.1:3080${path}" > /tmp/fta.html
+            grep -q 'FTA' /tmp/fta.html
+            if grep -q 'اطلاعات در دسترس نیست\|سرویس نمایشی در دسترس نیست' /tmp/fta.html; then exit 1; fi
+          done
+      - name: Service logs on failure
+        if: failure()
+        run: docker compose logs --tail=100
+      - name: Teardown
+        if: always()
+        run: docker compose down -v
