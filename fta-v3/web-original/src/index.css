@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-main: #101010;
+  --bg-elevated: #1D1D1D;
+  --bg-surface-hover: #262626;
+  --accent-gold: #C8A66A;
+  --accent-primary: #C8A66A;
+  --accent-gold-hover: #D6B77D;
+  --accent-secondary: #D6B77D;
+  --text-primary: #F5F2EC;
+  --text-muted: #929292;
+  --border-subtle: rgba(245, 242, 236, 0.08);
+  --border-gold: color-mix(in srgb, var(--accent-gold) 28%, transparent);
+}
+
+@layer base {
+  html {
+    font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #101010;
+    color: #F5F2EC;
+    direction: rtl;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #101010;
+    color: #F5F2EC;
+    overflow-x: hidden;
+    margin: 0;
+  }
+}
+
+/* Bind brand accent utilities to dynamic CSS variables (--accent-gold & --accent-secondary) */
+.text-\[\#C8A66A\] {
+  color: var(--accent-gold) !important;
+}
+.hover\:text-\[\#C8A66A\]:hover {
+  color: var(--accent-gold) !important;
+}
+.bg-\[\#C8A66A\] {
+  background-color: var(--accent-gold) !important;
+}
+.hover\:bg-\[\#D6B77D\]:hover {
+  background-color: var(--accent-secondary) !important;
+}
+.bg-\[\#C8A66A\]\/10 {
+  background-color: color-mix(in srgb, var(--accent-gold) 10%, transparent) !important;
+}
+.bg-\[\#C8A66A\]\/15 {
+  background-color: color-mix(in srgb, var(--accent-gold) 15%, transparent) !important;
+}
+.bg-\[\#C8A66A\]\/20 {
+  background-color: color-mix(in srgb, var(--accent-gold) 20%, transparent) !important;
+}
+.hover\:bg-\[\#C8A66A\]\/25:hover {
+  background-color: color-mix(in srgb, var(--accent-gold) 25%, transparent) !important;
+}
+.border-\[\#C8A66A\] {
+  border-color: var(--accent-gold) !important;
+}
+.border-\[\#C8A66A\]\/25,
+.border-\[\#C8A66A\]\/30,
+.border-\[\#C8A66A\]\/35,
+.border-\[\#C8A66A\]\/40,
+.border-\[\#C8A66A\]\/45,
+.border-\[\#C8A66A\]\/50 {
+  border-color: color-mix(in srgb, var(--accent-gold) 40%, transparent) !important;
+}
+.ring-\[\#C8A66A\] {
+  --tw-ring-color: var(--accent-gold) !important;
+}
+.accent-\[\#C8A66A\] {
+  accent-color: var(--accent-gold) !important;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hide scrollbars for horizontal carousels and Reels feed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth vertical snap for Reels Explore experience */
+.reels-scroll-container {
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reels-snap-item {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Horizontal image carousel snap */
+.carousel-scroll-container {
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-snap-item {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Smooth responsive horizontal scroll-snap for Featured Products carousel */
+.featured-products-carousel {
+  --carousel-gap: 0.75rem;
+  --carousel-card-w: 78vw;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+
+@media (min-width: 640px) {
+  .featured-products-carousel {
+    --carousel-gap: 0.875rem;
+    --carousel-card-w: 270px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .featured-products-carousel {
+    --carousel-gap: 1rem;
+    --carousel-card-w: 285px;
+  }
+}
+
+/* Safe area padding for iOS/Android */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

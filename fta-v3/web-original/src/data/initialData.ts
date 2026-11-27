@@ -1,0 +1,12 @@
+import type {BrandConfig, SiteModulesConfig, ConsultationRequest, DiscountCode, CoachProfile, SectionVisualConfig, Product, ExplorePost, Order, CustomerAccount} from "../types";
+import fixtures from "./previewFixtures.json";
+export const INITIAL_BRAND_CONFIG = fixtures.brandConfig as unknown as BrandConfig;
+export const INITIAL_SITE_MODULES = fixtures.siteModules as unknown as SiteModulesConfig;
+export const INITIAL_CONSULTATIONS = fixtures.consultations as unknown as ConsultationRequest[];
+export const INITIAL_DISCOUNTS = fixtures.discounts as unknown as DiscountCode[];
+export const INITIAL_COACH_PROFILE = fixtures.coach as unknown as CoachProfile;
+export const INITIAL_SECTION_CONFIGS = fixtures.sectionConfigs as unknown as SectionVisualConfig[];
+export const INITIAL_PRODUCTS = fixtures.products as unknown as Product[];
+export const INITIAL_EXPLORE_POSTS = fixtures.posts as unknown as ExplorePost[];
+export const INITIAL_ORDERS = fixtures.orders as unknown as Order[];
+export const INITIAL_CUSTOMER: CustomerAccount={name:"مشتری نمونه FTA",phone:"00000000000",email:"customer@example.test",level:"ورزشکار نمونه",memberSince:"آزمایشی",isLoggedInDemo:true};
