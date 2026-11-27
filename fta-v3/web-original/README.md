@@ -1,0 +1,3 @@
+# Original React → Next.js source migration candidate
+
+Separate private candidate from the Nov 15 AI Studio editable source, using RC4 synthetic fixtures and an explicit browser-only API adapter (no global fetch override). All existing view/component sources retained except Vite entrypoint; data and runtime adapted. Not the RC4 compiled UI and not a production build. Does not connect to the new training API. Do not replace the Pages branch. Missing parity includes 2.3.2 compiled-only changes, separate athlete/coach portals, verified checkout, admin/coach authorization and real integrations. Run npm install && npm run build && npm start on loopback only. Full typecheck, browser acceptance and dependency lock/audit required before any release.

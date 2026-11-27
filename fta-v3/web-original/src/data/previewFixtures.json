@@ -1,0 +1,613 @@
+{
+  "installed": true,
+  "version": "3.0-restoration-rc3",
+  "brandConfig": {
+    "brandName": "FTA",
+    "brandSubtitle": "پلتفرم مدیریت تمرین و مربیگری",
+    "seoTitle": "FTA | Fitness Training & Administration",
+    "seoDescription": "پلتفرم رسمی برنامه‌های تمرینی دیجیتال، تجهیزات تخصصی لیفتینگ و آموزش‌های ویدیویی بیومکانیک ورزشی",
+    "ogTitle": "FTA",
+    "ogDescription": "پلتفرم رسمی برنامه‌های تمرینی دیجیتال، تجهیزات تخصصی لیفتینگ و آموزش‌های ویدیویی بیومکانیک ورزشی",
+    "ogImage": "",
+    "ogType": "website",
+    "ogSiteName": "FTA",
+    "twitterCard": "summary_large_image",
+    "canonicalDomain": "",
+    "footerCopyright": "FTA · نسخه نمایشی",
+    "primaryCtaText": "دریافت برنامه تمرینی",
+    "primaryCtaRoute": "shop",
+    "supportHours": "شنبه تا پنجشنبه — ساعت ۱۰ الی ۲۰",
+    "shippingFlatRateToman": 85000,
+    "freeShippingThresholdToman": 3000000
+  },
+  "siteModules": {
+    "digitalPrograms": true,
+    "physicalShop": true,
+    "exploreReels": true,
+    "coachingRequests": true,
+    "nfcSmartCard": true,
+    "commentsModeration": true,
+    "discounts": true
+  },
+  "coach": {
+    "name": "مربی نمونه FTA",
+    "englishName": "FTA COACH",
+    "title": "مربی ارشد عملکرد ورزشی، هایپرتروفی و بازآرایی بدن",
+    "tagline": "طراحی سیستم‌های تمرینی مبتنی بر بیومکانیک، افزایش قدرت کاربردی و تناسب اندام پایدار.",
+    "bio": "با بیش از ۱۱ سال سابقه مربیگری تخصصی در حوزه بدنسازی کلاسیک، قدرتی و اصلاح الگوی حرکتی، هدف من ارائه برنامه‌های دقیق، علمی و قابل اجرا برای ورزشکارانی است که به دنبال نتیجه‌ای ماندگار و بدون آسیب هستند. تمامی برنامه‌ها بر اساس ساختار اسکلتی، سابقه تمرینی و سبک زندگی فردی کالیبره می‌شوند.",
+    "specialties": [
+      "هایپرتروفی و تقارن عضلانی",
+      "بیومکانیک و اصلاح فرم حرکتی",
+      "تغذیه عملکردی و بادی ریکامپوزیشن",
+      "آماده‌سازی جسمانی ورزشکاران"
+    ],
+    "experienceYears": 11,
+    "activeAthletes": 480,
+    "programsDelivered": 1920,
+    "location": "استودیو نمونه FTA",
+    "phone": "",
+    "email": "",
+    "instagramHandle": "",
+    "telegramHandle": "",
+    "youtubeHandle": "",
+    "nfcSerialCode": "FTA-DEMO",
+    "visualPreset": "coach-portrait",
+    "certifications": []
+  },
+  "themeColors": {
+    "primaryColor": "#C8A66A",
+    "secondaryColor": "#D6B77D"
+  },
+  "sectionConfigs": [
+    {
+      "id": "home-hero",
+      "pageTarget": "home",
+      "blockType": "profile-cover",
+      "label": "بخش اول (Hero) و کاور پروفایل مربی",
+      "kicker": "پلتفرم رسمی مربیگری و برنامه‌نویسی تمرین",
+      "title": "مربی نمونه FTA",
+      "subtitle": "مربی ارشد عملکرد ورزشی، هایپرتروفی و بازآرایی بدن",
+      "ctaText": "دریافت برنامه تمرینی",
+      "ctaRoute": "shop",
+      "enabled": true,
+      "order": 1,
+      "bgType": "gradient",
+      "solidColor": "#1D1D1D",
+      "gradientPreset": "obsidian-gold",
+      "imagePreset": "coach-portrait",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 65,
+      "heightMode": "hero"
+    },
+    {
+      "id": "home-promo-banner",
+      "pageTarget": "home",
+      "blockType": "promotional-banner",
+      "label": "بنر کمپین ویژه فصل (Promotional Banner)",
+      "kicker": "ظرفیت محدود فصل پاییز و زمستان",
+      "title": "ثبت‌نام دوره ۱۲ هفته‌ای بازآرایی بدن و هایپرتروفی آغاز شد",
+      "subtitle": "شامل طراحی اختصاصی ماکروها، تحلیل ویدیویی فرم اجرای حرکات و پشتیبانی مستقیم هفتگی برای ورزشکاران جدی.",
+      "ctaText": "مشاهده پروتکل ۱۲ هفته‌ای",
+      "ctaRoute": "shop",
+      "enabled": true,
+      "order": 2,
+      "bgType": "image-overlay",
+      "solidColor": "#181818",
+      "gradientPreset": "charcoal-bronze",
+      "imagePreset": "reel-deadlift",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 75,
+      "heightMode": "medium"
+    },
+    {
+      "id": "home-programs",
+      "pageTarget": "home",
+      "blockType": "training-cover",
+      "label": "بخش برنامه‌های تمرینی دیجیتال منتخب",
+      "kicker": "۰۱. سیستم‌های تمرینی هوشمند",
+      "title": "برنامه‌های تمرینی دیجیتال و پروتکل‌های علمی",
+      "subtitle": "طراحی‌شده بر پایه بیومکانیک، کنترل فاز منفی و اضافه‌بار پیشرونده استاندارد.",
+      "ctaText": "همه برنامه‌ها",
+      "ctaRoute": "shop",
+      "enabled": true,
+      "order": 3,
+      "bgType": "solid",
+      "solidColor": "#101010",
+      "gradientPreset": "deep-onyx",
+      "imagePreset": "digital-hypertrophy",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 80,
+      "heightMode": "medium"
+    },
+    {
+      "id": "home-products",
+      "pageTarget": "home",
+      "blockType": "product-spotlight",
+      "label": "بخش تجهیزات و محصولات فیزیکی ورزشی",
+      "kicker": "۰۲. تجهیزات اورجینال تمرین",
+      "title": "تجهیزات تخصصی لیفتینگ و اکسسوری‌های باشگاهی",
+      "subtitle": "ساخته‌شده از چرم طبیعی و متریال صنعتی برای ایمنی مفاصل در ست‌های سنگین.",
+      "ctaText": "ورود به فروشگاه تجهیزات",
+      "ctaRoute": "shop",
+      "enabled": true,
+      "order": 4,
+      "bgType": "gradient",
+      "solidColor": "#161616",
+      "gradientPreset": "deep-onyx",
+      "imagePreset": "physical-straps",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 75,
+      "heightMode": "medium"
+    },
+    {
+      "id": "home-explore-preview",
+      "pageTarget": "home",
+      "blockType": "section-background",
+      "label": "بخش پیش‌نمایش ویدیوهای اکسپلور (Reels)",
+      "kicker": "۰۳. آموزش‌های ویدیویی و بیومکانیک",
+      "title": "اکسپلور ویدیویی مربی (Reels)",
+      "subtitle": "مرور سریع تکنیک‌های کلیدی اجرای حرکات و اصلاح فرم در قالب ویدیوهای کوتاه.",
+      "ctaText": "ورود به فید تمام‌صفحه",
+      "ctaRoute": "explore",
+      "enabled": true,
+      "order": 5,
+      "bgType": "solid",
+      "solidColor": "#101010",
+      "gradientPreset": "obsidian-gold",
+      "imagePreset": "reel-mobility",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 80,
+      "heightMode": "medium"
+    },
+    {
+      "id": "home-about",
+      "pageTarget": "home",
+      "blockType": "section-background",
+      "label": "بخش درباره مربی و گواهینامه‌های تخصصی",
+      "kicker": "۰۴. صلاحیت‌های علمی و حرفه‌ای",
+      "title": "مدارک، سوابق و فلسفه مربیگری",
+      "subtitle": "ترکیب علم تمرین روز دنیا با تجربه عملی در آماده‌سازی ورزشکاران حرفه‌ای.",
+      "enabled": true,
+      "order": 6,
+      "bgType": "gradient",
+      "solidColor": "#1D1D1D",
+      "gradientPreset": "charcoal-bronze",
+      "imagePreset": "coach-portrait",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 82,
+      "heightMode": "medium"
+    },
+    {
+      "id": "home-cta",
+      "pageTarget": "home",
+      "blockType": "cta-banner",
+      "label": "بخش فراخوان مشاوره و ارتباط مستقیم (CTA Section)",
+      "kicker": "۰۵. ارزیابی حضوری و مشاوره اختصاصی",
+      "title": "آماده شروع تغییر اصولی و ارتقای رکوردهای خود هستید؟",
+      "subtitle": "برای رزرو وقت ارزیابی ساختار قامتی و دریافت مشاوره پیش از انتخاب برنامه تمرینی با استودیو در تماس باشید.",
+      "ctaText": "رزرو مشاوره و تماس مستقیم",
+      "ctaRoute": "contact",
+      "enabled": true,
+      "order": 7,
+      "bgType": "image-overlay",
+      "solidColor": "#1D1D1D",
+      "gradientPreset": "obsidian-gold",
+      "imagePreset": "digital-hypertrophy",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 72,
+      "heightMode": "medium"
+    },
+    {
+      "id": "shop-header",
+      "pageTarget": "shop",
+      "blockType": "full-width-hero",
+      "label": "هدر و کاور بالای فروشگاه (Shop Header Banner)",
+      "kicker": "فروشگاه رسمی برنامه‌های تمرینی و تجهیزات",
+      "title": "پروتکل‌های علمی تمرین و تجهیزات تخصصی FTA",
+      "subtitle": "تمامی برنامه‌های دیجیتال بلافاصله پس از ثبت سفارش فعال می‌شوند و تجهیزات فیزیکی با ضمانت اصالت ارسال می‌گردند.",
+      "enabled": true,
+      "order": 1,
+      "bgType": "image-overlay",
+      "solidColor": "#1D1D1D",
+      "gradientPreset": "obsidian-gold",
+      "imagePreset": "digital-hypertrophy",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 74,
+      "heightMode": "compact"
+    },
+    {
+      "id": "shop-products-grid",
+      "pageTarget": "shop",
+      "blockType": "product-spotlight",
+      "label": "ویترین، فیلترها و گرید محصولات فروشگاه (Shop Catalog & Grid)",
+      "kicker": "کاتالوگ جامع محصولات",
+      "title": "برنامه‌های دیجیتال و تجهیزات باشگاهی",
+      "subtitle": "فیلتر سریع بر اساس دسته‌بندی، جستجو و مرتب‌سازی هوشمند محصولات فروشگاه.",
+      "enabled": true,
+      "order": 2,
+      "bgType": "solid",
+      "solidColor": "#101010",
+      "gradientPreset": "deep-onyx",
+      "imagePreset": "physical-straps",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 75,
+      "heightMode": "medium"
+    },
+    {
+      "id": "shop-promo-banner",
+      "pageTarget": "shop",
+      "blockType": "promotional-banner",
+      "label": "بنر ضمانت اصالت و مشاوره خرید تجهیزات (Shop Guarantee Banner)",
+      "kicker": "ضمانت رسمی آکادمی FTA",
+      "title": "تضمین اصالت متریال چرم طبیعی و پشتیبانی مستقیم برنامه‌های تمرینی",
+      "subtitle": "برای راهنمایی در انتخاب سطح برنامه دیجیتال یا سایزبندی کمربند و بند لیفت، تیم فنی آماده پاسخگویی است.",
+      "ctaText": "دریافت مشاوره پیش از خرید",
+      "ctaRoute": "contact",
+      "enabled": true,
+      "order": 3,
+      "bgType": "gradient",
+      "solidColor": "#181818",
+      "gradientPreset": "charcoal-bronze",
+      "imagePreset": "physical-straps",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 76,
+      "heightMode": "compact"
+    },
+    {
+      "id": "explore-banner",
+      "pageTarget": "explore",
+      "blockType": "promotional-banner",
+      "label": "بنر راهنمای بالای فید اکسپلور (Explore Intro Overlay)",
+      "kicker": "فید آموزشی عمودی",
+      "title": "آموزش‌های تکنیک حرکتی و تغذیه ورزشی",
+      "subtitle": "برای مشاهده ویدیوی بعدی به بالا بکشید",
+      "enabled": true,
+      "order": 1,
+      "bgType": "gradient",
+      "solidColor": "#151515",
+      "gradientPreset": "obsidian-gold",
+      "imagePreset": "reel-deadlift",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 70,
+      "heightMode": "compact"
+    },
+    {
+      "id": "footer-bg",
+      "pageTarget": "global",
+      "blockType": "section-background",
+      "label": "پس‌زمینه و کاور فوتر سایت (Footer Background)",
+      "kicker": "FTA ATHLETIC LUXURY",
+      "title": "آکادمی و استودیو تخصصی عملکرد ورزشی مربی نمونه FTA",
+      "subtitle": "تمامی حقوق برای پلتفرم رسمی مربی نمونه FTA محفوظ است · طراحی موبایل‌فرست",
+      "enabled": true,
+      "order": 1,
+      "bgType": "gradient",
+      "solidColor": "#0C0C0C",
+      "gradientPreset": "deep-onyx",
+      "imagePreset": "coach-portrait",
+      "imageDisplayMode": "cover",
+      "overlayOpacity": 85,
+      "heightMode": "compact"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-digital-hypertrophy",
+      "type": "digital",
+      "title": "پروتکل ۱۲ هفته‌ای هایپرتروفی و بازآرایی بدن (Body Recomp)",
+      "subtitle": "برنامه جامع تمرینی + راهنمای تغذیه ماکرو و ویدیوهای آموزش تکنیک",
+      "price": 2200000,
+      "discountPrice": 1850000,
+      "description": "این پروتکل ۱۲ هفته‌ای برای ورزشکاران سطح متوسط تا پیشرفته طراحی شده است که می‌خواهند همزمان با کاهش درصد چربی زیرپوستی، چگالی و تقارن عضلانی خود را به حداکثر برسانند. شامل ۳ فاز زمان‌بندی شده (تراکم، اضافه‌بار پیشرونده و پیک کاندیشنینگ)، جدول دقیق RPE و تمپو برای هر حرکت و محاسبه‌گر کالری و درشت‌مغذی‌ها است.",
+      "features": [
+        "۳ فاز تمرینی ۴ هفته‌ای با جزئیات کامل ست، تکرار، تمپو و زمان استراحت",
+        "دفترچه دیجیتال PDF تعاملی ۹۴ صفحه‌ای با لینک مستقیم به ویدیوی اجرای صحیح حرکات",
+        "راهنمای تنظیم درشت‌مغذی‌ها (پروتئین، کربوهیدرات، چربی) در روزهای تمرین و استراحت",
+        "پروتکل گرم‌کردن مفصلی ۱۰ دقیقه‌ای و اصلاح عدم تقارن شانه و لگن",
+        "دسترسی آنی و دائمی بلافاصله پس از تکمیل خرید آزمایشی"
+      ],
+      "visualPreset": "digital-hypertrophy",
+      "status": "published",
+      "createdAt": "۱۴۰۳/۰۷/۱۵",
+      "level": "متوسط تا پیشرفته",
+      "duration": "۱۲ هفته (۴ تا ۵ جلسه در هفته)",
+      "fileFormat": "پکیج تعاملی PDF + شیت ثبت رکورد",
+      "fileSize": "۲۸.۴ مگابایت",
+      "modules": [
+        {
+          "weekRange": "هفته ۱ تا ۴",
+          "title": "فاز اول: تثبیت بیومکانیک و انباشت حجم (Accumulation)",
+          "focus": "کنترل فاز منفی (اکسنتریک ۳ ثانیه‌ای)، فعال‌سازی عصبی-عضلانی و ایجاد پایه استقامت عضلانی",
+          "sessionsPerWeek": 4,
+          "sampleExercises": [
+            "پرس سینه هالتر دست جمع با مکث ۱ ثانیه‌ای روی سینه — ۴ ست × ۸ تکرار (RPE 8)",
+            "اسکوات از جلو هالتر (Front Squat) با کنترل تنه — ۴ ست × ۸ تکرار (تمپو 3-1-1-0)",
+            "زیربغل هالتر خم مچ برعکس — ۴ ست × ۱۰ تکرار",
+            "نشر جانب سیم‌کش از پشت بدن — ۴ ست × ۱۵ تکرار"
+          ]
+        },
+        {
+          "weekRange": "هفته ۵ تا ۸",
+          "title": "فاز دوم: اضافه‌بار مکانیکی و تشدید تنش (Intensification)",
+          "focus": "افزایش وزنه جابجا شده در حرکات چندمفصلی کلیدی و تکنیک‌های Rest-Pause کنترل‌شده",
+          "sessionsPerWeek": 5,
+          "sampleExercises": [
+            "ددلیفت رومانیایی هالتر با تمرکز بر زنجیره پشتی — ۴ ست × ۶ تا ۸ تکرار (RPE 8.5)",
+            "پرس بالاسینه دمبل زاویه ۳۰ درجه — ۴ ست × ۸ تکرار + ۱ دراپ‌ست در ست آخر",
+            "بارفیکس دست باز با وزنه اضافه — ۴ ست × ۶ تکرار",
+            "هیپ‌تراست هالتر سنگین با مکث ۲ ثانیه‌ای در انقباض — ۴ ست × ۸ تکرار"
+          ]
+        },
+        {
+          "weekRange": "هفته ۹ تا ۱۲",
+          "title": "فاز سوم: تفکیک متابولیک و اوج آمادگی (Peak Recomposition)",
+          "focus": "حفظ قدرت حداکثری در کنار افزایش تراکم تمرینی و بهینه‌سازی ذخایر گلیکوژن عضلانی",
+          "sessionsPerWeek": 5,
+          "sampleExercises": [
+            "سوپرست آنتاگونیست سینه و زیربغل با استراحت ۷۵ ثانیه — ۵ ست × ۱۰ تکرار",
+            "اسکوات بلغاری با دمبل (تمرکز بر چهارسر و سرینی) — ۴ ست × ۱۰ تکرار هر پا",
+            "پروتکل Core و ثبات مرکزی ضدچرخش (Pallof Press + Hanging Leg Raise)",
+            "هفته ۱۲: پروتکل Deload هوشمند و ثبت رکوردهای جدید"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prod-physical-straps",
+      "type": "physical",
+      "title": "ست بند لیفت چرم طبیعی گاومیش و مچ‌بند حرفه‌ای FTA (نسخه Signature)",
+      "subtitle": "طراحی ارگونومیک با پد نئوپرن ضدحساسیت و سگک برنجی مات با دوخت کولار",
+      "price": 1520000,
+      "discountPrice": 1290000,
+      "description": "ست بند لیفت و مچ‌بند تخصصی FTA از چرم طبیعی دولایه فرآوری‌شده و الیاف مقاوم در برابر کشش تا ۲۸۰ کیلوگرم ساخته شده است. این محصول خستگی ساعد را در ست‌های سنگین ددلیفت، شراگ و حرکات کششی زیربغل حذف کرده و به شما اجازه می‌دهد تمام تمرکز عصبی را بر عضله هدف بگذارید.",
+      "features": [
+        "چرم طبیعی ضخیم ۳.۵ میلی‌متری با اصطکاک بالا روی آج هالتر بدون لغزش",
+        "پد محافظ مچ از نئوپرن متراکم ۶ میلی‌متری برای جلوگیری از فشار روی عصب مچ",
+        "حلقه و سگک فلزی با آبکاری برنج مات (Brushed Brass) مقاوم در برابر رطوبت و زنگ‌زدگی",
+        "دوخت صنعتی چهارردیفه با نخ کولار تقویت‌شده و گارانتی تعویض ۱۲ ماهه",
+        "همراه با کیف برزنتی اختصاصی ضدآب برای حمل در ساک ورزشی"
+      ],
+      "visualPreset": "physical-straps",
+      "status": "published",
+      "createdAt": "۱۴۰۳/۰۷/۲۰",
+      "stock": 14,
+      "sku": "AK-GEAR-STRP-01",
+      "material": "چرم طبیعی گاومیش + نئوپرن ۶ میلی‌متری + برنج مات",
+      "shippingEstimate": "ارسال پیشتاز و پیک ویژه (۱ تا ۳ روز کاری در سراسر کشور)",
+      "weightGrams": 340
+    },
+    {
+      "id": "prod-digital-mobility",
+      "type": "digital",
+      "title": "پروتکل ۶ هفته‌ای اصلاح ساختار قامتی و موبیلیتی مفاصل",
+      "subtitle": "رفع خشکی شانه، قفل لگن و افزایش دامنه حرکتی در اسکوات و ددلیفت",
+      "price": 1480000,
+      "discountPrice": 1180000,
+      "description": "برنامه تخصصی ۶ هفته‌ای برای رفع محدودیت‌های حرکتی کتف، ستون فقرات سینه‌ای (Thoracic) و مفصل ران. مناسب برای ورزشکارانی که در اجرای عمیق اسکوات، پرس بالای سر یا ددلیفت دچار درد یا محدودیت دامنه هستند.",
+      "features": [
+        "روتین‌های ۱۵ دقیقه‌ای قبل از تمرین و جلسات ریکاوری فعال",
+        "پروتکل تثبیت روتاتور کاف و کنترل کتف با کتل‌بل و کش مقاومتی",
+        "راهنمای ویدیویی تست‌های ارزیابی دامنه حرکتی مچ پا و لگن",
+        "فایل PDF تعاملی + جدول پیگیری پیشرفت هفتگی"
+      ],
+      "visualPreset": "reel-mobility",
+      "status": "published",
+      "createdAt": "۱۴۰۳/۰۸/۰۲",
+      "level": "همه سطوح",
+      "duration": "۶ هفته (۳ تا ۴ جلسه در هفته)",
+      "fileFormat": "پکیج تعاملی PDF + ویدیوهای کلیدی",
+      "fileSize": "۱۹.۲ مگابایت",
+      "modules": [
+        {
+          "weekRange": "هفته ۱ تا ۳",
+          "title": "فاز اول: آزادسازی فاشیا و بازیابی دامنه مفصل ران و کتف",
+          "focus": "افزایش چرخش داخلی/خارجی مفصل ران و اکستنشن ستون فقرات سینه‌ای",
+          "sessionsPerWeek": 3,
+          "sampleExercises": [
+            "۹۰/۹۰ Hip Switch با کنترل ایزومتریک — ۳ ست × ۸ تکرار",
+            "Kettlebell Bottoms-Up Press — ۳ ست × ۸ تکرار هر دست",
+            "Thoracic Windmill کنار دیوار — ۳ ست × ۱۰ تکرار"
+          ]
+        },
+        {
+          "weekRange": "هفته ۴ تا ۶",
+          "title": "فاز دوم: تثبیت قدرت در انتهای دامنه حرکتی (End-Range Strength)",
+          "focus": "انتقال دامنه حرکتی جدید به الگوهای سنگین اسکوات و پرس بالای سر",
+          "sessionsPerWeek": 4,
+          "sampleExercises": [
+            "گابلت اسکوات با مکث ۳ ثانیه‌ای در پایین‌ترین نقطه — ۴ ست × ۸ تکرار",
+            "Cossack Squat کنترل‌شده با وزنه — ۳ ست × ۸ تکرار",
+            "Face Pull با چرخش خارجی و مکث ۲ ثانیه‌ای — ۴ ست × ۱۲ تکرار"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prod-physical-belt",
+      "type": "physical",
+      "title": "کمربند لیفتینگ اهرمی چرم طبیعی ۱۰ میلی‌متری FTA (Pro Lever)",
+      "subtitle": "حداکثر ثبات فشار درون شکمی با قفل اهرمی فولادی و روکش جیر مشکی",
+      "price": 3450000,
+      "description": "کمربند حرفه‌ای ۱۰ میلی‌متری با عرض استاندارد ۱۰ سانتی‌متر، ساخته‌شده از چرم طبیعی یک‌تکه گاومیش و مجهز به قفل اهرمی فولادی ضدزنگ با روکش برنج مات. طراحی‌شده برای ثبت رکوردهای سنگین اسکوات و ددلیفت با حداکثر حمایت از ستون فقرات کمری.",
+      "features": [
+        "ضخامت استاندارد ۱۰ میلی‌متر برای تعادل ایده‌آل بین سختی و راحتی دنده‌ها",
+        "قفل اهرمی (Lever Buckle) با باز و بسته شدن سریع در کمتر از ۱ ثانیه",
+        "لایه داخلی از جیر ضدلغزش برای قرارگیری محکم روی لباس تمرینی",
+        "گارانتی مادام‌العمر سگک فلزی و ۲۴ ماه ضمانت چرم و دوخت صنعتی"
+      ],
+      "visualPreset": "reel-deadlift",
+      "status": "published",
+      "createdAt": "۱۴۰۳/۰۸/۱۰",
+      "stock": 8,
+      "sku": "AK-GEAR-BELT-10",
+      "material": "چرم طبیعی ۱۰ میلی‌متری + سگک اهرمی فولاد/برنج",
+      "shippingEstimate": "ارسال ویژه در جعبه اختصاصی (۱ تا ۲ روز کاری)",
+      "weightGrams": 1150
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-reel-deadlift",
+      "mediaType": "video",
+      "title": "اصلاح زاویه لگن و قفل لتیسیموس در شروع ددلیفت سنگین",
+      "caption": "بیشترین خطایی که در ست‌های سنگین ددلیفت می‌بینم، بالا آمدن زودرس لگن قبل از جدا شدن هالتر از زمین است. قبل از شروع کشش، شانه را کمی عقب و پایین قفل کنید (زیربغل را منقبض کنید گویی پرتقالی زیر بغل دارید)، نفس عمیق شکمی بگیرید (Bracing ۳۶۰ درجه) و زمین را با پاشنه و میانه پا به پایین فشار دهید تا هالتر در نزدیک‌ترین مسیر به ساق حرکت کند.",
+      "tags": [
+        "بیومکانیک_ددلیفت",
+        "آموزش_تکنیک",
+        "هایپرتروفی",
+        "قدرت_عملکردی"
+      ],
+      "visualPreset": "reel-deadlift",
+      "likesCount": 1420,
+      "isLiked": false,
+      "isSaved": false,
+      "viewsCount": 18400,
+      "durationSec": 18,
+      "bpmTempo": 112,
+      "linkedProductId": "prod-physical-straps",
+      "createdAt": "۲ روز پیش",
+      "comments": [
+        {
+          "id": "c-101",
+          "authorName": "ورزشکار نمونه 1",
+          "authorRole": "ورزشکار دوره ۱۲ هفته‌ای",
+          "text": "نکته گرفتن خلاصی هالتر (Slack Pull) قبل از کشش اصلی واقعاً درد پایین کمر من رو کامل برطرف کرد. ممنون استاد!",
+          "createdAt": "۱ روز پیش"
+        },
+        {
+          "id": "c-102",
+          "authorName": "مربی نمونه FTA",
+          "authorRole": "مربی رسمی",
+          "text": "دقیقاً سهراب جان؛ وقتی خلاصی هالتر رو قبل از جدا شدن وزنه می‌گیری، ضربه ناگهانی به دیسک کمری وارد نمیشه.",
+          "createdAt": "۱ روز پیش",
+          "isCoachReply": true
+        }
+      ]
+    },
+    {
+      "id": "post-reel-mobility",
+      "mediaType": "video",
+      "title": "پروتکل ۳ مرحله‌ای ثبات کتف و موبیلیتی شانه قبل از روز پرس",
+      "caption": "اگر هنگام پرس سینه یا پرس سرشانه در جلوی مفصل شانه احساس تیر کشیدن دارید، مشکل معمولاً ضعف عضلات چرخاننده شانه (Rotator Cuff) و قفل بودن قفسه سینه (Thoracic Spine) است. این روتین ۴ دقیقه‌ای با کتل‌بل واژگون را قبل از اولین ست گرم‌کردنی اجرا کنید تا پایداری مفصل شانه تا ۴۰٪ افزایش یابد.",
+      "tags": [
+        "موبیلیتی_شانه",
+        "پیشگیری_از_آسیب",
+        "گرم_کردن_تخصصی",
+        "عملکرد_ورزشی"
+      ],
+      "visualPreset": "reel-mobility",
+      "likesCount": 985,
+      "isLiked": true,
+      "isSaved": true,
+      "viewsCount": 12300,
+      "durationSec": 15,
+      "bpmTempo": 96,
+      "linkedProductId": "prod-digital-hypertrophy",
+      "createdAt": "۵ روز پیش",
+      "comments": [
+        {
+          "id": "c-201",
+          "authorName": "ورزشکار نمونه 1",
+          "text": "این حرکت کتل‌بل برعکس چقدر تمرکز عصب و عضله رو بالا می‌بره! توی برنامه ۱۲ هفته‌ای هم هست؟",
+          "createdAt": "۴ روز پیش"
+        },
+        {
+          "id": "c-202",
+          "authorName": "مربی نمونه FTA",
+          "authorRole": "مربی رسمی",
+          "text": "بله نیلوفر عزیز، در بخش گرم‌کردن تخصصی روزهای Upper Body کامل با تعداد و زمان مکث قرار داده شده.",
+          "createdAt": "۴ روز پیش",
+          "isCoachReply": true
+        }
+      ]
+    },
+    {
+      "id": "post-carousel-posture",
+      "mediaType": "carousel",
+      "title": "۳ شاخص طلایی برای تشخیص اضافه‌بار واقعی در دوره هایپرتروفی (ورق بزنید)",
+      "caption": "افزایش وزنه روی هالتر تنها راه رشد عضلانی نیست! اگر وزنه را ۲۰٪ سنگین‌تر کنید اما دامنه حرکتی را نصف کنید یا فرم حرکت به هم بریزد، در واقع تنش مکانیکی روی عضله هدف را کم کرده‌اید. در این ۳ اسلاید، معیارهای دقیق پیشرفت استاندارد در پروتکل ۱۲ هفته‌ای را بررسی کرده‌ایم.",
+      "tags": [
+        "اضافه_بار_پیشرونده",
+        "علم_تمرین",
+        "برنامه_نویسی_تمرین",
+        "رشد_عضلانی"
+      ],
+      "visualPreset": "carousel-posture-1",
+      "slides": [
+        {
+          "id": "slide-1",
+          "visualPreset": "carousel-posture-1",
+          "slideTitle": "۰۱. کنترل فاز منفی (Eccentric Tempo)",
+          "slideNote": "فرود وزنه در ۳ ثانیه کامل با حفظ تنش مداوم در طول کل دامنه حرکتی بدون رها کردن وزنه در انتها."
+        },
+        {
+          "id": "slide-2",
+          "visualPreset": "carousel-posture-2",
+          "slideTitle": "۰۲. افزایش تکرارهای باکیفیت در RPE ثابت",
+          "slideNote": "رساندن ۸ تکرار هفته اول به ۱۱ تکرار با همان وزنه و همان فرم استاندارد، پیش از افزایش وزنه جدید."
+        },
+        {
+          "id": "slide-3",
+          "visualPreset": "carousel-posture-3",
+          "slideTitle": "۰۳. کاهش زمان بازیابی بین ست‌ها (Density)",
+          "slideNote": "ثابت نگه داشتن تناژ کل تمرین در زمان کمتر و بهبود ظرفیت هوازی موضعی عضله."
+        }
+      ],
+      "likesCount": 1640,
+      "isLiked": false,
+      "isSaved": true,
+      "viewsCount": 21900,
+      "linkedProductId": "prod-digital-hypertrophy",
+      "createdAt": "۱ هفته پیش",
+      "comments": [
+        {
+          "id": "c-301",
+          "authorName": "ورزشکار نمونه 1",
+          "text": "اسلاید دوم دقیقاً همون چیزیه که اکثر بچه‌های باشگاه نادیده می‌گیرن و زود وزنه رو سنگین می‌کنن.",
+          "createdAt": "۶ روز پیش"
+        }
+      ]
+    },
+    {
+      "id": "post-image-nutrition",
+      "mediaType": "image",
+      "title": "زمان‌بندی پروتئین و کربوهیدرات پیرامون جلسه تمرینی (Peri-Workout Nutrition)",
+      "caption": "وعده قبل و بعد از تمرین بیشترین تاثیر را بر سنتز پروتئین عضلانی و جلوگیری از افت قند خون در ست‌های پایانی دارد. مصرف ۰.۴ گرم پروتئین به ازای هر کیلوگرم وزن بدن همراه با کربوهیدرات زودهضم تا ۹۰ دقیقه پیش از تمرین، راندمان جلسه شما را متحول می‌کند.",
+      "tags": [
+        "تغذیه_ورزشی",
+        "ماکرو_شماری",
+        "ریکاوری_عضلانی",
+        "بادی_ریکامپ"
+      ],
+      "visualPreset": "reel-nutrition",
+      "likesCount": 830,
+      "isLiked": false,
+      "isSaved": false,
+      "viewsCount": 9450,
+      "linkedProductId": "prod-digital-hypertrophy",
+      "createdAt": "۲ هفته پیش",
+      "comments": [
+        {
+          "id": "c-401",
+          "authorName": "ورزشکار نمونه 1",
+          "text": "استاد برای تمرین صبح زود ناشتا چه جایگزینی پیشنهاد می‌کنید؟",
+          "createdAt": "۱۰ روز پیش"
+        },
+        {
+          "id": "c-402",
+          "authorName": "مربی نمونه FTA",
+          "authorRole": "مربی رسمی",
+          "text": "یک اسکوپ وی ایزوله به همراه یک عدد موز رسیده یا ۳۰ گرم عسل طبیعی ۳۰ دقیقه قبل از شروع عالی عمل می‌کنه.",
+          "createdAt": "۱۰ روز پیش",
+          "isCoachReply": true
+        }
+      ]
+    }
+  ],
+  "orders": [],
+  "consultations": [],
+  "discounts": [],
+  "revisions": [],
+  "gateways": [],
+  "auditLogs": []
+}

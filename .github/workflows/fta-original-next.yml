@@ -1,0 +1,45 @@
+name: FTA original React source Next build
+on:
+  push:
+    branches: [migration/fta-v3-original-web]
+    paths: ['fta-v3/web-original/**', '.github/workflows/fta-original-next.yml']
+  pull_request:
+    branches: [migration/fta-v3-training]
+    paths: ['fta-v3/web-original/**', '.github/workflows/fta-original-next.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: fta-v3/web-original
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install and typecheck
+        run: |
+          npm install --no-audit --no-fund
+          npm run typecheck
+      - name: Compile original React UI
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build
+      - name: Check source preview routes
+        run: |
+          npm start >/tmp/fta-next.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/ >/dev/null && break; sleep 1; done
+          for path in / /shop /explore /account /admin; do
+            curl -fsS "http://127.0.0.1:3000${path}" | grep -q 'FTA'
+          done
+      - name: Server log on failure
+        if: failure()
+        run: cat /tmp/fta-next.log || true
