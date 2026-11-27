@@ -11,6 +11,8 @@ class TrainingController {
  @Post('athlete/login') @HttpCode(200) login(@Req() r:RequestInfo,@Body() b:unknown){return this.auth.login(r,b,'ATHLETE');}
  @Get('auth/me') async me(@Req() r:RequestInfo){return {account:publicAccount((await this.auth.authorize(r,undefined,true)).account)};}
  @Post('auth/password') @HttpCode(200) rotate(@Req() r:RequestInfo,@Body() b:unknown){return this.auth.rotate(r,b);}
+ @Get('auth/sessions') sessions(@Req() r:RequestInfo){return this.auth.sessions(r);}
+ @Post('auth/sessions/revoke-others') @HttpCode(200) revokeOthers(@Req() r:RequestInfo){return this.auth.revokeOthers(r);}
  @Post('auth/logout') @HttpCode(200) logout(@Req() r:RequestInfo){return this.auth.logout(r);}
  @Get('athlete/me') async athlete(@Req() r:RequestInfo){return {athlete:publicAccount((await this.auth.authorize(r,'ATHLETE')).account)};}
  @Get('athlete/plans') plans(@Req() r:RequestInfo){return this.service.plans(r);}
