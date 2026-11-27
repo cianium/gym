@@ -7,6 +7,9 @@ on:
     branches: [migration/fta-v3-original-web]
     paths: ['fta-v3/**', '.github/workflows/fta-integration-ci.yml']
   workflow_dispatch:
+concurrency:
+  group: fta-integration-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -72,7 +75,7 @@ jobs:
           trap 'kill "$api" "$web" || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4000/api/v1/health && break; sleep 1; done
           curl -fsS http://127.0.0.1:4000/api/v1/health
-          (cd api && node ../tests/training.mjs && node ../tests/communication.mjs)
+          (cd api && node ../tests/training.mjs && node ../tests/communication.mjs && node ../tests/session-security.mjs)
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/workspace >/dev/null && break; sleep 1; done
           curl -fsS http://127.0.0.1:3000/workspace >/dev/null
           (cd tests && npx playwright test workspace.spec.mjs --reporter=line)
