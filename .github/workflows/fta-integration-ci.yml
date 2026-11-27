@@ -1,0 +1,87 @@
+name: FTA phase 07 integration
+on:
+  push:
+    branches: [migration/fta-v3-integration]
+    paths: ['fta-v3/**', '.github/workflows/fta-integration-ci.yml']
+  pull_request:
+    branches: [migration/fta-v3-original-web]
+    paths: ['fta-v3/**', '.github/workflows/fta-integration-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17-bookworm
+        env:
+          POSTGRES_DB: fta_training_staging
+          POSTGRES_USER: fta_ci
+          POSTGRES_PASSWORD: ci_ephemeral_only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U fta_ci -d fta_training_staging"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://fta_ci:ci_ephemeral_only@127.0.0.1:5432/fta_training_staging
+      FTA_MODE: training-staging
+      FTA_STAGING_ACK: isolated-test-only
+      FTA_WORKSPACE_MODE: isolated-staging
+      FTA_WORKSPACE_ORIGIN: http://127.0.0.1:3000
+      FTA_WORKSPACE_API_URL: http://127.0.0.1:4000
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Compile API and migrate PostgreSQL
+        working-directory: fta-v3/api
+        run: |
+          npm install --no-audit --no-fund
+          npm run db:generate
+          npm run build
+          npm run db:migrate
+          npx prisma migrate status
+      - name: Typecheck and compile Next
+        working-directory: fta-v3/web-original
+        run: |
+          npm install --no-audit --no-fund
+          npm run typecheck
+          npm run build
+      - name: Install browser test runner
+        working-directory: fta-v3/tests
+        run: |
+          npm install --no-save --no-package-lock @playwright/test
+          npx playwright install --with-deps chromium
+      - name: Integration and browser acceptance
+        working-directory: fta-v3
+        env:
+          FTA_BOOTSTRAP_EMAIL: owner@example.test
+          FTA_BOOTSTRAP_PASSWORD: Synthetic-Test-Pass-123!
+        run: |
+          (cd api && node dist/training/provision.js)
+          (cd api && node dist/main.js) >/tmp/fta-api.log 2>&1 &
+          api=$!
+          (cd web-original && npm start) >/tmp/fta-web.log 2>&1 &
+          web=$!
+          trap 'kill "$api" "$web" || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4000/api/v1/health && break; sleep 1; done
+          curl -fsS http://127.0.0.1:4000/api/v1/health
+          (cd api && node ../tests/training.mjs && node ../tests/communication.mjs)
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/workspace >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3000/workspace >/dev/null
+          (cd tests && npx playwright test workspace.spec.mjs --reporter=line)
+      - name: Logs on failure
+        if: failure()
+        run: cat /tmp/fta-api.log /tmp/fta-web.log 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fta-workspace-browser
+          path: fta-v3/tests/test-results/
+          if-no-files-found: ignore
