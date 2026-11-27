@@ -17,6 +17,6 @@ async function bootstrap(){
   next();
  });
  app.setGlobalPrefix('api/v1');app.enableShutdownHooks();
- await app.listen(4000,'0.0.0.0');
+ await app.listen(4000,mode==='demo'?'0.0.0.0':'127.0.0.1');
 }
 bootstrap().catch(()=>{console.error('FTA startup failed');process.exit(1);});

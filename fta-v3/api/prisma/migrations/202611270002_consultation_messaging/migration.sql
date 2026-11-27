@@ -1,0 +1,9 @@
+CREATE TYPE "ConsultationStatus" AS ENUM ('REQUESTED','CONFIRMED','COMPLETED','CANCELLED');
+ALTER TABLE "TrainingAccount" ADD COLUMN "stagingBookingEnabled" BOOLEAN NOT NULL DEFAULT false;
+CREATE TABLE "ConsultationSlot" ("id" TEXT PRIMARY KEY,"startsAt" TIMESTAMPTZ(3) NOT NULL UNIQUE,"endsAt" TIMESTAMPTZ(3) NOT NULL,"active" BOOLEAN NOT NULL DEFAULT true,"createdById" TEXT NOT NULL REFERENCES "TrainingAccount"("id") ON DELETE RESTRICT,CHECK ("endsAt">"startsAt"));
+CREATE TABLE "ConsultationBooking" ("id" TEXT PRIMARY KEY,"slotId" TEXT NOT NULL REFERENCES "ConsultationSlot"("id") ON DELETE RESTRICT,"activeSlotId" TEXT UNIQUE,"athleteId" TEXT NOT NULL REFERENCES "TrainingAccount"("id") ON DELETE RESTRICT,"status" "ConsultationStatus" NOT NULL DEFAULT 'REQUESTED',"athleteNote" TEXT,"coachNote" TEXT,"createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,"cancelledAt" TIMESTAMP(3),CHECK (("status"='CANCELLED' AND "activeSlotId" IS NULL) OR ("status"<>'CANCELLED' AND "activeSlotId" IS NOT NULL AND "activeSlotId"="slotId")));
+CREATE INDEX "ConsultationBooking_athleteId_createdAt_idx" ON "ConsultationBooking"("athleteId","createdAt");
+CREATE TABLE "TrainingMessage" ("id" TEXT PRIMARY KEY,"athleteId" TEXT NOT NULL REFERENCES "TrainingAccount"("id") ON DELETE RESTRICT,"senderId" TEXT NOT NULL REFERENCES "TrainingAccount"("id") ON DELETE RESTRICT,"body" TEXT NOT NULL,"createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,"readByAthleteAt" TIMESTAMP(3),"readByCoachAt" TIMESTAMP(3));
+CREATE INDEX "TrainingMessage_athleteId_createdAt_idx" ON "TrainingMessage"("athleteId","createdAt");
+CREATE TABLE "TrainingActionBucket" ("key" TEXT PRIMARY KEY,"count" INTEGER NOT NULL DEFAULT 1,"expiresAt" TIMESTAMP(3) NOT NULL);
+CREATE INDEX "TrainingActionBucket_expiresAt_idx" ON "TrainingActionBucket"("expiresAt");
