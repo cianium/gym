@@ -1,0 +1,64 @@
+name: FTA PostgreSQL training integration
+on:
+  push:
+    branches: [migration/fta-v3-training]
+    paths: ['fta-v3/api/**', 'fta-v3/tests/training.mjs', '.github/workflows/fta-training-ci.yml']
+  pull_request:
+    branches: [main]
+    paths: ['fta-v3/api/**', 'fta-v3/tests/training.mjs', '.github/workflows/fta-training-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  training:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-bookworm
+        env:
+          POSTGRES_DB: fta_training_staging
+          POSTGRES_USER: fta_ci
+          POSTGRES_PASSWORD: ci_ephemeral_only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U fta_ci -d fta_training_staging"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://fta_ci:ci_ephemeral_only@127.0.0.1:5432/fta_training_staging
+      FTA_MODE: training-staging
+      FTA_STAGING_ACK: isolated-test-only
+    defaults:
+      run:
+        working-directory: fta-v3/api
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install and compile
+        run: |
+          npm install --no-audit --no-fund
+          npm run db:generate
+          npm run build
+      - name: Apply versioned migrations
+        run: |
+          npm run db:migrate
+          npx prisma migrate status
+      - name: Provision synthetic admin and test
+        env:
+          FTA_BOOTSTRAP_EMAIL: owner@example.test
+          FTA_BOOTSTRAP_PASSWORD: Synthetic-Test-Pass-123!
+        run: |
+          node dist/training/provision.js
+          node dist/main.js >/tmp/fta-training.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4000/api/v1/health && break; sleep 1; done
+          curl -fsS http://127.0.0.1:4000/api/v1/health
+          node ../tests/training.mjs
+      - name: Logs on failure
+        if: failure()
+        run: cat /tmp/fta-training.log || true
