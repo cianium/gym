@@ -173,48 +173,6 @@ export const PaymentResultView: React.FC<PaymentResultViewProps> = ({
       className="min-h-screen pb-28 md:pb-16 pt-4 sm:pt-8 px-3 sm:px-6 overflow-x-hidden"
     >
       <div className="max-w-2xl mx-auto space-y-5 min-w-0">
-        {/* نوار کنترل شبیه‌ساز وضعیت درگاه (فقط در محیط توسعه / غیرفعال در Production) */}
-        {false && resolvedOrderId && (
-          <div className="bg-[#181818] border border-white/10 rounded-2xl p-3 sm:p-4 min-w-0">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C8A66A]">
-                <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
-                <span>شبیه‌ساز وضعیت پاسخ بانک (GET /api/orders/{resolvedOrderId.slice(0, 10)}...):</span>
-              </span>
-              {isSwitchingMock && (
-                <Loader2 className="w-3.5 h-3.5 text-[#C8A66A] animate-spin" />
-              )}
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 min-w-0">
-              {(
-                [
-                  { id: 'paid', label: 'موفق (paid)' },
-                  { id: 'failed', label: 'ناموفق (failed)' },
-                  { id: 'cancelled', label: 'لغو شده (cancelled)' },
-                  { id: 'pending', label: 'در انتظار (pending)' }
-                ] as { id: PaymentOrderStatus; label: string }[]
-              ).map((opt) => {
-                const active = orderRecord?.status === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    disabled={isSwitchingMock}
-                    onClick={() => handleSwitchMockStatus(opt.id)}
-                    className={`min-h-[44px] px-2.5 py-2 rounded-xl text-xs font-bold border transition-[transform,opacity] duration-150 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A66A] ${
-                      active
-                        ? 'bg-[#C8A66A] text-[#101010] border-[#C8A66A]'
-                        : 'bg-[#121212] text-[#C8C4BC] border-white/10 hover:text-[#F5F2EC]'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
         {/* کارت اصلی نتیجه پرداخت */}
         <div
           aria-live="polite"
