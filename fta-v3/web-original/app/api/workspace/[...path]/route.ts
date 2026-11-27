@@ -2,7 +2,7 @@ import {NextRequest,NextResponse} from 'next/server';
 export const dynamic='force-dynamic';
 const cookie='fta_workspace_session';
 const id='[a-f0-9-]{36}';
-const rules:Record<string,RegExp[]>={GET:[/^auth\/me$/,/^athlete\/(me|plans|progress|messages|consultations\/(slots|bookings))$/,/^admin\/(athletes|training-plans|consultation-slots|consultation-bookings)$/,new RegExp('^admin/athletes/'+id+'/(progress|messages)$')],POST:[/^auth\/(admin\/login|password|logout)$/,/^athlete\/(login|progress|messages(?:\/read)?|consultations\/bookings)$/,new RegExp('^athlete/consultations/bookings/'+id+'/cancel$'),/^admin\/(athletes|training-plans|consultation-slots)$/,new RegExp('^admin/consultation-slots/'+id+'/disable$'),new RegExp('^admin/consultation-bookings/'+id+'/status$'),new RegExp('^admin/athletes/'+id+'/messages(?:/read)?$')],PUT:[new RegExp('^admin/training-plans/'+id+'$')]};
+const rules:Record<string,RegExp[]>={GET:[/^auth\/(me|sessions)$/,/^athlete\/(me|plans|progress|messages|consultations\/(slots|bookings))$/,/^admin\/(athletes|training-plans|consultation-slots|consultation-bookings)$/,new RegExp('^admin/athletes/'+id+'/(progress|messages)$')],POST:[/^auth\/(admin\/login|password|logout|sessions\/revoke-others)$/,/^athlete\/(login|progress|messages(?:\/read)?|consultations\/bookings)$/,new RegExp('^athlete/consultations/bookings/'+id+'/cancel$'),/^admin\/(athletes|training-plans|consultation-slots)$/,new RegExp('^admin/consultation-slots/'+id+'/disable$'),new RegExp('^admin/consultation-bookings/'+id+'/status$'),new RegExp('^admin/athletes/'+id+'/messages(?:/read)?$')],PUT:[new RegExp('^admin/training-plans/'+id+'$')]};
 const response=(data:unknown,status=200)=>NextResponse.json(data,{status,headers:{'Cache-Control':'private, no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'}});
 type Context={params:Promise<{path:string[]}>};
 async function proxy(req:NextRequest,ctx:Context){
@@ -17,7 +17,7 @@ async function proxy(req:NextRequest,ctx:Context){
  const isLogin=path==='auth/admin/login'||path==='athlete/login';
  const session=req.cookies.get(cookie)?.value;
  if(isLogin&&session)return response({error:'Log out before changing account'},409);
- if(!isLogin&&(!session||!/^[a-f0-9]{64}$/.test(session)))return response({error:'Authentication required'},401);
+ if(!isLogin&&(!session||!/^[a-f0-9]{64}$/.test(session))){const out=response({error:'Authentication required'},401);if(session)out.cookies.set(cookie,'',{httpOnly:true,secure:source.protocol==='https:',sameSite:'strict',path:'/',maxAge:0});return out;}
  let body:string|undefined;
  if(method!=='GET'){
   if(!req.headers.get('content-type')?.startsWith('application/json'))return response({error:'JSON required'},415);
