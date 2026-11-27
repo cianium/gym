@@ -1,2 +1,31 @@
 
 .fta-workspace{max-width:1120px;margin:0 auto;padding:20px 16px 60px;color:#f5f2ec}.fta-workspace h1{font-size:clamp(22px,4vw,34px);font-weight:800}.fta-workspace h2{font-size:20px;font-weight:750;margin-block:8px}.fta-workspace .panel{border:1px solid #39352e;background:#1d1d1d;border-radius:20px;padding:18px;min-width:0;margin-block:14px}.fta-workspace .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:14px}.fta-workspace label{display:grid;gap:5px;font-size:13px;color:#d3cbc0;margin-block:8px}.fta-workspace :is(input,select,textarea){width:100%;min-width:0;background:#111;color:#f5f2ec;border:1px solid #575044;border-radius:10px;padding:10px;min-height:44px}.fta-workspace button{background:#c8a66a;color:#101010;padding:10px 16px;min-height:44px;border-radius:11px;font-weight:700;max-width:100%;white-space:normal}.fta-workspace button.secondary{background:#29251e;color:#f5f2ec;border:1px solid #64543a}.fta-workspace button:disabled{opacity:.55}.fta-workspace :focus-visible{outline:3px solid #d6b77d;outline-offset:3px}.fta-workspace nav,.fta-workspace .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.fta-workspace .muted{color:#bdb6a9;font-size:13px}.fta-workspace .row{border-top:1px solid #3c372e;padding:12px 0;overflow-wrap:anywhere}.fta-workspace .notice{color:#f4d9a8;background:#292318;padding:10px;border-radius:10px;overflow-wrap:anywhere}.fta-workspace .message{white-space:pre-wrap;overflow-wrap:anywhere}.fta-workspace .day{padding:10px;border:1px solid #4a4236;border-radius:12px;margin-block:10px}.fta-workspace .compact{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,100px),1fr));gap:8px}
+
+/* Release polish: scoped to the operational workspace, never the storefront. */
+.fta-workspace{color-scheme:dark;line-height:1.7;padding-bottom:max(40px,env(safe-area-inset-bottom))}
+.fta-workspace .login-panel{max-width:480px;margin:24px auto;padding:clamp(18px,4vw,32px);background:linear-gradient(145deg,#242018,#191919 65%)}
+.fta-workspace .login-panel button{width:100%;margin-top:12px}
+.fta-workspace .account-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.fta-workspace .account-bar strong{font-size:18px;overflow-wrap:anywhere}
+.fta-workspace .workspace-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.fta-workspace .workspace-stats>div{background:#1b1b1b;border:1px solid #39352e;border-radius:14px;padding:14px;display:grid;gap:6px;min-width:0}
+.fta-workspace .workspace-stats span{font-size:12px;color:#d3cbc0;overflow-wrap:anywhere}
+.fta-workspace .workspace-stats strong{font-size:clamp(20px,4vw,30px);color:#d6b77d}
+.fta-workspace .workspace-tabs{padding:8px;background:#181818;border:1px solid #39352e;border-radius:14px;gap:6px;margin-bottom:16px}
+.fta-workspace .workspace-tabs button{flex:1 1 auto;font-size:14px}
+.fta-workspace .panel h2{margin-top:0;border-bottom:1px solid #39352e;padding-bottom:10px}
+.fta-workspace .plan-title{font-weight:750;font-size:16px;overflow-wrap:anywhere}
+.fta-workspace .state-label{font-weight:700;color:#e0c48e}
+.fta-workspace .state-label[data-state="archived"]{color:#c0bbb1}
+.fta-workspace .chat-message{border:1px solid #40392e;border-radius:14px;margin-block:10px;padding:12px;max-width:min(88%,620px);background:#222}
+.fta-workspace .chat-message.outgoing{background:#292318;border-color:#635135;margin-inline-start:auto}
+.fta-workspace .chat-message.incoming{margin-inline-end:auto}
+.fta-workspace .chat-message strong{font-size:12px;color:#d6b77d}
+.fta-workspace .chat-message p{margin-block:4px}
+.fta-workspace textarea{min-height:90px;resize:vertical}
+.fta-workspace button{transition:background-color .15s ease,opacity .15s ease;touch-action:manipulation}
+.fta-workspace button:not(:disabled):hover{filter:brightness(1.08)}
+.fta-workspace .notice{border:1px solid #625135;margin-block:12px}
+.fta-workspace :is(input,select,textarea){max-width:100%;font-size:16px}
+@media(max-width:480px){.fta-workspace{padding-inline:12px}.fta-workspace .panel{padding:14px;border-radius:16px}.fta-workspace .workspace-stats{gap:6px}.fta-workspace .workspace-stats>div{padding:10px 8px}.fta-workspace .workspace-tabs button{padding-inline:10px}.fta-workspace .chat-message{max-width:96%}}
+@media(prefers-reduced-motion:reduce){.fta-workspace *, .fta-workspace *::before,.fta-workspace *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
