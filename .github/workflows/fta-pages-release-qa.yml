@@ -3,6 +3,9 @@ on:
   push:
     branches: [migration/fta-v3-integration]
     paths: ['fta-v3/tests/pages-rc5.spec.mjs', '.github/workflows/fta-pages-release-qa.yml']
+  pull_request:
+    branches: [migration/fta-v3-original-web]
+    paths: ['fta-v3/tests/pages-rc5.spec.mjs', '.github/workflows/fta-pages-release-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read
