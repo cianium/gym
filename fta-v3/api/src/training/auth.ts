@@ -4,7 +4,7 @@ import {TrainingDatabase} from './database';
 import {digest,token,hashPassword,checkPassword} from './crypto';
 import {record,str,password,email,phone} from './validation';
 export type RequestInfo={headers:Record<string,string|string[]|undefined>;ip?:string};
-export const publicAccount=(a:TrainingAccount)=>({id:a.id,name:a.name,email:a.email,phone:a.phone,role:a.role.toLowerCase(),mustChangePassword:a.mustChangePassword,phone_verified:false});
+export const publicAccount=(a:TrainingAccount)=>({id:a.id,name:a.name,email:a.email,phone:a.phone,role:a.role.toLowerCase(),mustChangePassword:a.mustChangePassword,phone_verified:false,stagingBookingEnabled:a.stagingBookingEnabled});
 @Injectable()
 export class TrainingAuth {
  constructor(private db:TrainingDatabase){}
