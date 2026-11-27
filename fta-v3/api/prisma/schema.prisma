@@ -41,3 +41,74 @@ model DemoProduct {
   kind String
   priceToman Int
 }
+
+enum TrainingRole {
+ ADMIN
+ ATHLETE
+}
+enum TrainingStatus {
+ DRAFT
+ PUBLISHED
+ ARCHIVED
+}
+model TrainingAccount {
+ id String @id @default(uuid())
+ email String @unique
+ name String
+ phone String? @unique
+ passwordHash String
+ role TrainingRole
+ active Boolean @default(true)
+ mustChangePassword Boolean @default(true)
+ createdAt DateTime @default(now())
+ sessions TrainingSession[]
+ assigned TrainingAssignment[] @relation("AthleteAssignment")
+ coached TrainingAssignment[] @relation("CoachAssignment")
+ entries TrainingEntry[]
+}
+model TrainingSession {
+ tokenHash String @id
+ accountId String
+ account TrainingAccount @relation(fields:[accountId],references:[id],onDelete:Cascade)
+ expiresAt DateTime
+ createdAt DateTime @default(now())
+ @@index([accountId])
+ @@index([expiresAt])
+}
+model TrainingLoginBucket {
+ key String @id
+ count Int @default(1)
+ expiresAt DateTime
+ @@index([expiresAt])
+}
+model TrainingAssignment {
+ id String @id @default(uuid())
+ athleteId String
+ athlete TrainingAccount @relation("AthleteAssignment",fields:[athleteId],references:[id],onDelete:Restrict)
+ coachId String
+ coach TrainingAccount @relation("CoachAssignment",fields:[coachId],references:[id],onDelete:Restrict)
+ title String
+ description String?
+ sessions Json
+ startsOn DateTime? @db.Date
+ endsOn DateTime? @db.Date
+ status TrainingStatus @default(DRAFT)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ entries TrainingEntry[]
+ @@index([athleteId,status])
+}
+model TrainingEntry {
+ id String @id @default(uuid())
+ assignmentId String
+ assignment TrainingAssignment @relation(fields:[assignmentId],references:[id],onDelete:Restrict)
+ athleteId String
+ athlete TrainingAccount @relation(fields:[athleteId],references:[id],onDelete:Restrict)
+ performedOn DateTime @db.Date
+ sessionDay String
+ effort Int?
+ notes String?
+ updatedAt DateTime @updatedAt
+ @@unique([assignmentId,athleteId,performedOn,sessionDay])
+ @@index([athleteId,performedOn])
+}
